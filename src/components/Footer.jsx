@@ -11,7 +11,11 @@ const Footer = ({conversation, setConversation}) => {
     console.log(input)
 
     let clone = conversation.splice()
-    clone.push()
+    clone.push({
+      user: input,
+      bot: "roger"
+    })
+    setConversation(clone)
   }
 
   return(

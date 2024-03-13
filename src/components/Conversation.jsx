@@ -1,17 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import "../styles/conversation.css";
 
-const Conversation = () => {
-  
-  const [conversation, setConversation] = useState([
-  {
-    user: "Howdy",
-    bot: "hello Dave"
-  },
-  {
-  user: "how did you know my name!",
-  bot: "I have a good memory"
-  }]);
+const Conversation = ({conversation}) => {
 
   const endOfMessagesRef = useRef(null);
 

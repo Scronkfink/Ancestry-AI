@@ -1,0 +1,19 @@
+*{
+  margin: 0px;
+  padding: 0px;
+  box-sizing: border-box;
+}
+
+.app{
+  display: flex;
+  height: 100vh;
+  width: 100vw;
+}
+
+.creator{
+  position: absolute;
+  color: grey;
+  font-size: 13px;
+  left: 60%;
+  top: 97.5%;
+}

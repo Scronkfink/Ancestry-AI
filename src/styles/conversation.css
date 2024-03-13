@@ -1,0 +1,35 @@
+.conversation {
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  top: 5px;
+  left: 320px;
+  right: 10px;
+  bottom: 80px;
+  overflow-y: auto;
+  padding: 10px;
+}
+
+.messagePair {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.botMessage, .userMessage {
+  word-break: break-word;
+  margin: 5px 0;
+  padding: 10px;
+  border-radius: 10px;
+  max-width: 60%;
+}
+
+.botMessage {
+  align-self: flex-start;
+  background-color: #f0f0f0;
+}
+
+.userMessage {
+  align-self: flex-end;
+  background-color: #d1e7fd;
+}

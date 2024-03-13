@@ -1,0 +1,60 @@
+.nav{
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  width: 300px;
+  background-color: rgb(245, 245, 245);
+  align-items: center;
+}
+.newPrompt{
+  position: absolute;
+  left: 10px;
+  top: 10px;
+  display: flex;
+  width: 300px;
+  height: 50px;
+  justify-content: space-between;
+  align-items: center;
+}
+.newPrompt > p{
+  padding-right: 25px;
+}
+.notepad{
+  height: 50px;
+  margin-right: 10px;
+}
+.roberto{
+  height: 50px;
+  border-radius: 50px;
+}
+.convoHeader{
+  position: absolute;
+  width: 300px;
+  top: 100px;
+  left: 10px;
+  color: gray;
+}
+
+.conversations {
+  position: absolute;
+  top: 130px;
+  width: 300px;
+  margin-left: 15px;
+  max-height: calc(100vh - 130px); /* Adjust based on your needs */
+  overflow-y: auto;
+}
+
+.convo {
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  left: 10px;
+  width: 250px;
+  height: 40px;
+  margin-top: 10px;
+  border-radius: 15px;
+  cursor: pointer;
+}
+.convo > p{
+  margin-left: 5px;
+}

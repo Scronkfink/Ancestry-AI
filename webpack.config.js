@@ -51,8 +51,9 @@ module.exports = {
       directory: path.join(__dirname, 'dist'),
     },
     port: 8080, 
-    proxy: { //where to go when making a backend request
-    },
+    proxy: { "/convo": "http://localhost:3000",
+            "/signup" : "http://localhost:3000"
+            },
   },
 
 //does the .js/.jsx stuff for you on imports

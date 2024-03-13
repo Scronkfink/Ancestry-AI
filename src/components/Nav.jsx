@@ -2,9 +2,11 @@ import React, { useState } from "react";
 import "../styles/nav.css";
 import notepad from "../imgs/notepad.png";
 import roberto from "../imgs/roberto.png";
-import deletePic from "../imgs/delete.png"; // Ensure this path is correct
+import deletePic from "../imgs/delete.png";
 
 const Nav = () => {
+
+  //state of a User's conversations
   const [conversations, setConversations] = useState([
     {
       title: "Words of Wisdom",
@@ -15,9 +17,24 @@ const Nav = () => {
       isSelected: false,
     },
   ]);
+
+  //handles the "delete" window
   const [showConfirmation, setShowConfirmation] = useState(false);
+
+  //handles the "delete confirm"
   const [indexToDelete, setIndexToDelete] = useState(null);
 
+  //handles the creation of a newConversation
+  const handleNewConvoClick = () => {
+    const clone = conversations.slice()
+    clone.push({
+      title: "Silver",
+      isSelected: false
+    })
+    setConversations(clone)
+  };
+
+  //updates conversations
   const handleConvoClick = (index) => {
     const updatedConversations = conversations.map((convo, i) => {
       return { ...convo, isSelected: i === index };
@@ -56,7 +73,7 @@ const Nav = () => {
       <div className="newPrompt">
         <img src={roberto} alt="Roberto" className="roberto" />
         <p>King of Camelot LLM</p>
-        <img src={notepad} alt="Notepad" className="notepad" />
+        <button className="notepadButton" onClick={handleNewConvoClick}><img src={notepad} alt="Notepad" className="notepad" /></button>
       </div>
       <p className="convoHeader">Past Conversations:</p>
       <div className="conversations">

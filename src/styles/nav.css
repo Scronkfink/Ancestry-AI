@@ -27,6 +27,11 @@
   height: 50px;
   border-radius: 50px;
 }
+.notepadButton{
+  background: transparent;
+  border: none;
+  cursor: pointer;
+}
 .convoHeader{
   position: absolute;
   width: 300px;
@@ -55,62 +60,60 @@
   border-radius: 15px;
   cursor: pointer;
 }
+
 .convo > p{
   margin-left: 5px;
 }
 .delete{
   margin-right: 10px;
+  cursor: pointer;
 }
 .deletePic{
   height: 15px;
   background-color: none;
 }
 
-/* Style for the confirmation dialog backdrop */
 .confirmationBackdrop {
   position: fixed;
   top: 0;
   left: 0;
   width: 100vw;
   height: 100vh;
-  background-color: rgba(0, 0, 0, 0.4); /* Semi-transparent black */
+  background-color: rgba(0, 0, 0, 0.4);
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 100; /* Ensure it's above other content */
+  z-index: 100;
 }
 
-/* Style for the confirmation dialog box itself */
 .confirmationDialog {
   background-color: #fff;
   padding: 20px;
   border-radius: 5px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  z-index: 101; /* Above the backdrop */
+  z-index: 101;
   display: flex;
   flex-direction: column;
-  align-items: center; /* Center items horizontally in the dialog */
-  max-width: 80%; /* Prevents the dialog from being too wide on large screens */
+  align-items: center;
+  max-width: 80%;
 }
 
-/* Styles for buttons inside the confirmation dialog for consistency */
 .confirmationDialog button {
   margin-top: 10px;
   padding: 10px 20px;
   border: none;
   border-radius: 5px;
-  background-color: #007bff; /* Bootstrap primary blue, for example */
+  background-color: #007bff;
   color: white;
   cursor: pointer;
-  margin-right: 10px; /* Space between buttons */
+  margin-right: 10px;
 }
 
-/* Style to make the 'Cancel' button a bit more subdued */
 .confirmationDialog button:last-child {
-  background-color: #6c757d; /* Bootstrap secondary color, for example */
+  background-color: #6c757d;
 }
 
-/* Optional: Add hover effects to buttons for better interactivity */
 .confirmationDialog button:hover {
   opacity: 0.8;
 }
+

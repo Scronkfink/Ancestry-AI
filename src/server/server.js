@@ -24,7 +24,7 @@ app.post('/login', userController.login, (req, res) => {
 });
 
 app.post('/getConvos', userController.getConvos, (req, res) => {
-  res.status(200).json(res.locals.user);
+  res.status(200).json(res.locals.conversations);
 });
 
 app.post('/conversation', userController.convo, (req, res) => {

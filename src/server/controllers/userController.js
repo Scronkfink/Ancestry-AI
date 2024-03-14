@@ -50,14 +50,14 @@ userController.getConvos = (async(req, res, next) => {
   try{
     const response = await User.find({username, password})
     console.log(response)
-    // if(response.length >= 1){
-    //   res.locals.user = {username: username, password: password}
-    //   return next()
-    // }
-    // else{
-    //   console.log(response)
-    //   res.status(422).json({message: "That's an invalid username or password, dumbass."})
-    // }
+    if(response.length >= 1){
+      res.locals.conversations = response[0].conversations
+      return next()
+    }
+    else{
+      console.log(response)
+      res.status(422).json({message: "That's an invalid username or password, dumbass."})
+    }
   }
   catch (err){
     return next()

@@ -1,7 +1,10 @@
 import React, { useState } from "react";
 import "../styles/user.css";
+import { useNavigate } from 'react-router-dom';
 
-const User = () => {
+
+const User = ({userInfo, setUserInfo}) => {
+  const navigate = useNavigate();
   const [login, setLogin] = useState(false);
   const [signup, setSignup] = useState(false);
 
@@ -39,7 +42,11 @@ const User = () => {
         }),
       });
       const result = await response.json()
-      console.log("result from Login: ", result)
+      console.log("login result:", result)
+      if (result.login !== "failure") {
+        setUserInfo([result.username, result.password])
+        navigate('/home')
+      }
     }
     
     catch (error) {
@@ -66,7 +73,11 @@ const User = () => {
         }),
       });
       const result = await response.json()
-      console.log("result from Signup:", result)
+      console.log("signup result:", result)
+      if (result.signup !== "failure") {
+        setUserInfo([result.username, result.password])
+        navigate('/home')
+      }
     }
     
     catch (error) {

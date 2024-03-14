@@ -20,10 +20,14 @@ app.post('/signup', userController.signup, (req, res) => {
 });
 
 app.post('/login', userController.login, (req, res) => {
-  res.status(200).json({login: "success"});
+  res.status(200).json(res.locals.user);
 });
 
-app.post("/convo", userController.convo, (req, res) => {
+app.post('/getConvos', userController.getConvos, (req, res) => {
+  res.status(200).json(res.locals.user);
+});
+
+app.post('/conversation', userController.convo, (req, res) => {
   res.status(200).json({mission: "success"})
 })
 

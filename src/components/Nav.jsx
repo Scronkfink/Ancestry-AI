@@ -1,12 +1,37 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "../styles/nav.css";
 import notepad from "../imgs/notepad.png";
 import roberto from "../imgs/roberto.png";
 import deletePic from "../imgs/delete.png";
 
-const Nav = () => {
+const Nav = ({ userInfo }) => {
 
-  //state of a User's conversations
+  useEffect(() => {
+
+    const getUserConversations = async() => {
+
+      const username = userInfo[0]
+      const password = userInfo[1]
+
+      try{
+        const response = await fetch("/getConvos", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            username: username,
+            password: password,
+          }),
+         })
+      }
+      catch{
+
+      }
+    }
+    getUserConversations()
+  }, []);
+  
   const [conversations, setConversations] = useState([
     {
       title: "Words of Wisdom",

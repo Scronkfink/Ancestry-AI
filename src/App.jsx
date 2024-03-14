@@ -10,23 +10,21 @@ import { Route, Routes} from "react-router-dom";
 
 const App = () => {
   const [conversation, setConversation] = useState([]);
+  const [userInfo, setUserInfo] = useState([]);
 
   return (
     <Router>
       <Routes>
 
-      <Route path="/" element={<User/>}/>
+      <Route path="/" element={<User setUserInfo={setUserInfo} userInfo={userInfo}/>}/>
 
       <Route path="/home" element={ 
-      
-      <div className="app">
-         <Nav/>
-         <Footer conversation={conversation} setConversation={setConversation} />
-         <Conversation conversation={conversation} setConversation={setConversation} />
-       </div>}
-       
+        <div className="app">
+          <Nav userInfo={userInfo}/>
+          <Footer conversation={conversation} setConversation={setConversation} />
+          <Conversation conversation={conversation} setConversation={setConversation} userInfo={userInfo} />
+        </div>}
        />
-
 
       </Routes>
     </Router>

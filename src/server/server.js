@@ -19,6 +19,10 @@ app.post('/signup', userController.signup, (req, res) => {
   res.status(200).json(res.locals.user);
 });
 
+app.post('/login', userController.login, (req, res) => {
+  res.status(200).json({login: "success"});
+});
+
 app.post("/convo", userController.convo, (req, res) => {
   res.status(200).json({mission: "success"})
 })

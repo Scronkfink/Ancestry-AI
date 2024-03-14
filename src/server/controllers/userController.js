@@ -3,12 +3,11 @@ const userController = {}
 
 userController.signup = (async(req, res, next) => {
 
-  console.log("AYE CAPT'N HERE BE YOUR USER!", req.body)
   const username = req.body.username
   const password = req.body.password
 
   try{
-    const response = await User.create({username, password})
+    const response = await User.create({username, password});
     res.locals.user = {username: response.username, password: response.password}
     return next()
   }
@@ -17,6 +16,29 @@ userController.signup = (async(req, res, next) => {
     res.status(422).send({error: err.message, message: "This username is taken"})
     return next()
     }
+
+});
+
+userController.login = (async(req, res, next) => {
+
+  const username = req.body.username
+  const password = req.body.password
+
+  try{
+    const response = await User.find({username, password})
+    if(response.length >= 1){
+      return next()
+    }
+    else{
+      console.log(response)
+      res.status(422).json({message: "That's an invalid username or password, dumbass."})
+    }
+  }
+
+  catch (err){
+    return next()
+    }
+
 });
 
 userController.convo = (async(req, res, next) => {

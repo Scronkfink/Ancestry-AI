@@ -117,3 +117,51 @@
   opacity: 0.8;
 }
 
+.newConvoPrompt {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1000;
+  background-color: rgb(179, 179, 179);
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  width: 40%;
+}
+
+.newConvoPrompt input {
+  width: 80%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  margin-top: 5px;
+}
+
+.newConvoPrompt button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  background-color: #007bff;
+  color: white;
+  transition: background-color 0.2s ease;
+}
+
+.newConvoPrompt button:hover {
+  background-color: #0056b3;
+}
+
+.newConvoPrompt button:last-child {
+  background-color: #6c757d;
+}
+
+.newConvoPrompt button:last-child:hover {
+  background-color: #545b62;
+}
+
+

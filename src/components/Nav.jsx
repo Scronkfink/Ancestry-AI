@@ -5,14 +5,19 @@ import roberto from "../imgs/roberto.png";
 import deletePic from "../imgs/delete.png";
 
 const Nav = ({ userInfo = [] }) => {
-
   const [conversations, setConversations] = useState([]);
+  const [showConfirmation, setShowConfirmation] = useState(false);
+  const [indexToDelete, setIndexToDelete] = useState(null);
+  const [showNewConvoPrompt, setShowNewConvoPrompt] = useState(false);
+  const [newConvoTitle, setNewConvoTitle] = useState("");
 
   useEffect(() => {
-
     const getUserConversations = async () => {
-
-      console.log("this is userInfo", userInfo)
+      console.log("this is userInfo", userInfo);
+      if(userInfo.length === 0){
+        setConversations([])
+        return
+      }
       const username = userInfo[0];
       const password = userInfo[1];
 
@@ -27,33 +32,36 @@ const Nav = ({ userInfo = [] }) => {
             password: password,
           }),
         });
-          const result = await response.json();
-          console.log("this is result from getUserConversations", result)
-          setConversations(result);
-      }
-      catch (error) {
+        const result = await response.json();
+        console.log("this is result from getUserConversations", result);
+        setConversations(result);
+      } catch (error) {
         console.error("Error fetching conversations:", error);
       }
     };
     getUserConversations();
   }, [userInfo]);
 
-  const [showConfirmation, setShowConfirmation] = useState(false);
-  const [indexToDelete, setIndexToDelete] = useState(null);
-
   const handleNewConvoClick = () => {
-    const clone = conversations.slice();
-    clone.push({
-      title: "Silver",
-      isSelected: false,
-    });
-    setConversations(clone);
+    setShowNewConvoPrompt(true);
+  };
+
+  const handleAddNewConvo = () => {
+      const newConvo = {
+        title: newConvoTitle,
+        isSelected: false,
+      };
+      console.log("these are the User's conversations: ", conversations);
+      setConversations([...conversations, newConvo]);
+      setNewConvoTitle("");
+      setShowNewConvoPrompt(false);
   };
 
   const handleConvoClick = (index) => {
-    const updatedConversations = conversations.map((convo, i) => {
-      return { ...convo, isSelected: i === index };
-    });
+    const updatedConversations = conversations.map((convo, i) => ({
+      ...convo,
+      isSelected: i === index,
+    }));
     setConversations(updatedConversations);
   };
 
@@ -96,8 +104,11 @@ const Nav = ({ userInfo = [] }) => {
       </div>
       <p className="convoHeader">Past Conversations:</p>
       <div className="conversations">
-          {conversations.map((convo, index) => (
-            <div className="convo" key={index}
+        {conversations.length > 0 &&
+          conversations.map((convo, index) => (
+            <div
+              className="convo"
+              key={index}
               onClick={() => handleConvoClick(index)}
               style={{
                 backgroundColor: convo.isSelected ? "grey" : "transparent",
@@ -105,9 +116,10 @@ const Nav = ({ userInfo = [] }) => {
             >
               <p className="convoTitle">{convo.title}</p>
               {convo.isSelected && (
-                <button className="delete"
+                <button
+                  className="delete"
                   onClick={(e) => {
-                    e.stopPropagation(); // Prevent handleConvoClick
+                    e.stopPropagation();
                     handleShowConfirmation(index);
                   }}
                   style={{
@@ -121,7 +133,6 @@ const Nav = ({ userInfo = [] }) => {
               )}
             </div>
           ))}
-
       </div>
       {showConfirmation && (
         <div className="confirmationBackdrop">
@@ -129,6 +140,18 @@ const Nav = ({ userInfo = [] }) => {
             onCancel={handleHideConfirmation}
             onConfirm={handleConfirmDelete}
           />
+        </div>
+      )}
+      {showNewConvoPrompt && (
+        <div className="newConvoPrompt">
+          <input
+            type="text"
+            value={newConvoTitle}
+            onChange={(e) => setNewConvoTitle(e.target.value)}
+            placeholder="Enter conversation title..."
+          />
+          <button onClick={handleAddNewConvo}>Add Conversation</button>
+          <button onClick={() => setShowNewConvoPrompt(false)}>Cancel</button>
         </div>
       )}
     </div>

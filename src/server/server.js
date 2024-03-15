@@ -31,6 +31,19 @@ app.post('/updateConvos', userController.updateConvos, (req, res) => {
   res.status(200).json(res.locals.user)
 });
 
+app.post("/deleteConvos", userController.deleteConvos, (req, res) => {
+  res.status(200).json(res.locals.user)
+});
+
+app.post("/getconversation", userController.getConversation, (req, res) => {
+  res.status(200).json(res.locals.conversation)
+});
+
+app.post("/createNewConvo", userController.createNewConvo, (req, res) => {
+  res.status(200).json({mission: "completed for createNewConvo"})
+});
+
+
 app.listen(3000, () => {
   console.log('Server online');
 });

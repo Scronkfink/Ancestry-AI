@@ -11,6 +11,7 @@ const Nav = ({ userInfo = [], conversations, setConversations, setCurrentConvers
   const [newConvoTitle, setNewConvoTitle] = useState("");
 
   useEffect(() => {
+
     const getUserConversations = async () => {
       console.log("this is userInfo", userInfo);
       if(userInfo.length === 0){
@@ -45,24 +46,60 @@ const Nav = ({ userInfo = [], conversations, setConversations, setCurrentConvers
     setShowNewConvoPrompt(true);
   };
 
-  const handleAddNewConvo = () => {
-      const newConvo = {
-        title: newConvoTitle,
-        isSelected: false,
-      };
-      // console.log("these are the User's conversations: ", conversations);
-      setConversations([...conversations, newConvo]);
-      setNewConvoTitle("");
-      setShowNewConvoPrompt(false);
+  const handleAddNewConvo = async () => {
+    // Only proceed if newConvoTitle is not empty
+    if (newConvoTitle.trim()) {
+      try {
+        const response = await fetch("/createNewConvo", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            username: userInfo[0],
+            title: newConvoTitle,
+          }),
+        });
+  
+        if (response.ok) {
+          const newConvo = {
+            title: newConvoTitle,
+            isSelected: false,
+            conversation: { user: [], bot: [] }
+          };
+          console.log("These are the conversations prior to concat: ", conversations)
+          setConversations(conversations.concat(newConvo));
+        } else {
+          console.error("Failed to create new conversation");
+        }
+      } catch (error) {
+        console.error("Error creating new conversation:", error);
+      }
+    }
+    setNewConvoTitle("");
+    setShowNewConvoPrompt(false);
   };
 
-  const handleConvoClick = (index) => {
+  const handleConvoClick = async(index) => {
     const updatedConversations = conversations.map((convo, i) => ({
       ...convo,
       isSelected: i === index,
     }));
     setConversations(updatedConversations);
     setCurrentConversation(conversations[index].title);
+
+    const response = await fetch("/getconversation", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        title: conversations[index].title,
+        username: userInfo[0]
+      })
+    })
+    const result = await response.json()
+    console.log("IN NAV; this is the specific conversation", result)
     setConversation([]);
   };
 
@@ -76,12 +113,26 @@ const Nav = ({ userInfo = [], conversations, setConversations, setCurrentConvers
     setIndexToDelete(null);
   };
 
-  const handleConfirmDelete = () => {
+  const handleConfirmDelete = async() => {
     if (indexToDelete !== null) {
       const updatedConversations = conversations.filter(
         (_, index) => index !== indexToDelete
       );
       setConversations(updatedConversations);
+
+        const response = await fetch("/deleteConvos",{
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+            updatedConversations: updatedConversations,
+            username: userInfo[0]
+          })
+        })
+
+        const result = await response.json()
+        console.log("IN NAV; this is response from delete conversation")
       handleHideConfirmation();
     }
   };

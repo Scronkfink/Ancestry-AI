@@ -52,10 +52,11 @@ module.exports = {
       directory: path.join(__dirname, 'dist'),
     },
     port: 8080, 
-    proxy: { "/convo": "http://localhost:3000",
+    proxy: {
             "/signup" : "http://localhost:3000",
             "/login" : "http://localhost:3000",
-            "/getConvos" : "http://localhost:3000"
+            "/getConvos" : "http://localhost:3000",
+            "/updateConvos" : "http://localhost:3000"
             },
   },
 

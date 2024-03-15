@@ -4,8 +4,7 @@ import notepad from "../imgs/notepad.png";
 import roberto from "../imgs/roberto.png";
 import deletePic from "../imgs/delete.png";
 
-const Nav = ({ userInfo = [] }) => {
-  const [conversations, setConversations] = useState([]);
+const Nav = ({ userInfo = [], conversations, setConversations, setCurrentConversation, setConversation }) => {
   const [showConfirmation, setShowConfirmation] = useState(false);
   const [indexToDelete, setIndexToDelete] = useState(null);
   const [showNewConvoPrompt, setShowNewConvoPrompt] = useState(false);
@@ -33,7 +32,7 @@ const Nav = ({ userInfo = [] }) => {
           }),
         });
         const result = await response.json();
-        console.log("this is result from getUserConversations", result);
+        console.log("IN NAV; this is result from getUserConversations", result);
         setConversations(result);
       } catch (error) {
         console.error("Error fetching conversations:", error);
@@ -51,7 +50,7 @@ const Nav = ({ userInfo = [] }) => {
         title: newConvoTitle,
         isSelected: false,
       };
-      console.log("these are the User's conversations: ", conversations);
+      // console.log("these are the User's conversations: ", conversations);
       setConversations([...conversations, newConvo]);
       setNewConvoTitle("");
       setShowNewConvoPrompt(false);
@@ -63,6 +62,8 @@ const Nav = ({ userInfo = [] }) => {
       isSelected: i === index,
     }));
     setConversations(updatedConversations);
+    setCurrentConversation(conversations[index].title);
+    setConversation([]);
   };
 
   const handleShowConfirmation = (index) => {

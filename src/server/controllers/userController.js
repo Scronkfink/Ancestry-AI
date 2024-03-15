@@ -64,23 +64,59 @@ userController.getConvos = (async(req, res, next) => {
     }
 });
 
-userController.convo = (async(req, res, next) => {
+userController.updateConvos = async (req, res, next) => {
+  const { username, conversationMessage, currentConversation } = req.body;
 
-  console.log("AYE CAPT'N HERE IS YE CONVO! ", req.body)
+  try {
+    // First, check if the user and specific conversation title exist
+    let user = await User.findOne({
+      username: username,
+      "conversations.title": currentConversation
+    });
 
-  const bot = ""
-  const user = ""
+    if (user) {
+      // The conversation title exists, append the new message to the conversation array
+      await User.updateOne(
+        { username: username, "conversations.title": currentConversation },
+        {
+          $push: { "conversations.$.conversation": conversationMessage }
+        }
+      );
+    } else {
+      // The conversation title does not exist, push a new conversation object
+      await User.findOneAndUpdate(
+        { username: username },
+        {
+          $push: {
+            conversations: {
+              title: currentConversation,
+              isSelected: false, // Assuming default
+              conversation: [conversationMessage] // Initialize with the new message
+            }
+          }
+        },
+        { new: true }
+      );
+    }
 
-  try{
-    const response = await User.updateOne({username, })
-    res.locals.user = {username: response.username, password: response.password}
-    return next()
+    // Optionally, fetch the updated user to return or for further processing
+    user = await User.findOne({ username: username });
+    if (!user) {
+      return res.status(404).send({ message: "User not found" });
+    }
+
+    res.locals.user = {
+      username: user.username,
+      conversations: user.conversations
+    };
+    return next();
+  } catch (error) {
+    console.error("Error updating user conversations:", error);
+    res.status(500).send({ message: "Houston, we've had a problem updating the database" });
+    return next();
   }
-  catch{
-    res.status(500).send({message: "Housten, we've had a problem updating the database"})
-    return next()
-  }
+};
 
-});
+
 
 module.exports = userController

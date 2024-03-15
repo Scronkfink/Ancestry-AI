@@ -27,9 +27,9 @@ app.post('/getConvos', userController.getConvos, (req, res) => {
   res.status(200).json(res.locals.conversations);
 });
 
-app.post('/conversation', userController.convo, (req, res) => {
-  res.status(200).json({mission: "success"})
-})
+app.post('/updateConvos', userController.updateConvos, (req, res) => {
+  res.status(200).json(res.locals.user)
+});
 
 app.listen(3000, () => {
   console.log('Server online');

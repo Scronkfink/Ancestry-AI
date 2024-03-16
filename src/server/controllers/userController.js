@@ -44,10 +44,10 @@ userController.login = (async(req, res, next) => {
 userController.getConvos = (async(req, res, next) => {
   
   const username = req.body.username
-  const password = req.body.password
 
   try{
     const response = await User.find({username})
+    console.log("IN SERVER; this is response from getConvos: ", response)
     if(response.length >= 1){
       res.locals.conversations = response[0].conversations
       return next()
@@ -66,54 +66,37 @@ userController.updateConvos = async (req, res, next) => {
   const { username, conversationMessage, currentConversation } = req.body;
 
   try {
-    // Check if the user and specific conversation title exist
-    let user = await User.findOne({
-      username: username,
-      "conversations.title": currentConversation
-    });
+    // Find the user document
+    let user = await User.findOne({ username });
 
-    if (user) {
-      // Determine if the message is from the user or the bot
-      const messageKey = conversationMessage.from === 'user' ? "conversations.$.conversation.user" : "conversations.$.conversation.bot";
-      
-      // Append the new message to the appropriate array in the conversation object
-      await User.updateOne(
-        { username: username, "conversations.title": currentConversation },
-        {
-          $push: { [messageKey]: conversationMessage.message }
-        }
-      );
-    } else {
-      // The conversation title does not exist, push a new conversation object with user and bot arrays initialized
-      await User.findOneAndUpdate(
-        { username: username },
-        {
-          $push: {
-            conversations: {
-              title: currentConversation,
-              isSelected: false, // Assuming default
-              conversation: { user: [], bot: [] } // Initialize both arrays
-            }
-          }
-        },
-        { new: true }
-      );
-      
-      // Since this is a new conversation, add the initial message to the correct array
-      const initialMessageKey = conversationMessage.from === 'user' ? "conversations.$.conversation.user" : "conversations.$.conversation.bot";
-      await User.updateOne(
-        { username: username, "conversations.title": currentConversation },
-        {
-          $push: { [initialMessageKey]: conversationMessage.message }
-        }
-      );
-    }
-
-    // Fetch the updated user to return or for further processing
-    user = await User.findOne({ username: username });
     if (!user) {
       return res.status(404).send({ message: "User not found" });
     }
+
+    // Check if the current conversation exists and update it
+    const convoIndex = user.conversations.findIndex(convo => convo.title === currentConversation);
+    if (convoIndex !== -1) {
+      // Conversation exists, append messages
+      conversationMessage.forEach(msg => {
+        if (msg.user) user.conversations[convoIndex].conversation.user.push(msg.user);
+        if (msg.bot) user.conversations[convoIndex].conversation.bot.push(msg.bot);
+      });
+    } else {
+      // Conversation doesn't exist, create a new one
+      const newConvo = {
+        title: currentConversation,
+        isSelected: false,
+        conversation: { user: [], bot: [] }
+      };
+      conversationMessage.forEach(msg => {
+        if (msg.user) newConvo.conversation.user.push(msg.user);
+        if (msg.bot) newConvo.conversation.bot.push(msg.bot);
+      });
+      user.conversations.push(newConvo);
+    }
+
+    // Save the updated user document
+    await user.save();
 
     res.locals.user = {
       username: user.username,
@@ -126,6 +109,8 @@ userController.updateConvos = async (req, res, next) => {
     return next();
   }
 };
+
+
 
 
 userController.deleteConvos = ( async(req,res,next) => {

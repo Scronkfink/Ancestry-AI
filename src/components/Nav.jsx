@@ -13,14 +13,11 @@ const Nav = ({ userInfo = [], conversations, setConversations, setCurrentConvers
   useEffect(() => {
 
     const getUserConversations = async () => {
-      console.log("this is userInfo", userInfo);
       if(userInfo.length === 0){
         setConversations([])
         return
       }
       const username = userInfo[0];
-      const password = userInfo[1];
-
       try {
         const response = await fetch("/getConvos", {
           method: "POST",
@@ -29,7 +26,6 @@ const Nav = ({ userInfo = [], conversations, setConversations, setCurrentConvers
           },
           body: JSON.stringify({
             username: username,
-            password: password,
           }),
         });
         const result = await response.json();
@@ -47,7 +43,6 @@ const Nav = ({ userInfo = [], conversations, setConversations, setCurrentConvers
   };
 
   const handleAddNewConvo = async () => {
-    // Only proceed if newConvoTitle is not empty
     if (newConvoTitle.trim()) {
       try {
         const response = await fetch("/createNewConvo", {
@@ -67,7 +62,6 @@ const Nav = ({ userInfo = [], conversations, setConversations, setCurrentConvers
             isSelected: false,
             conversation: { user: [], bot: [] }
           };
-          console.log("These are the conversations prior to concat: ", conversations)
           setConversations(conversations.concat(newConvo));
         } else {
           console.error("Failed to create new conversation");
@@ -86,6 +80,7 @@ const Nav = ({ userInfo = [], conversations, setConversations, setCurrentConvers
       isSelected: i === index,
     }));
     setConversations(updatedConversations);
+    console.log("this is the title?: ", conversations[index].title)
     setCurrentConversation(conversations[index].title);
 
     const response = await fetch("/getconversation", {
@@ -101,6 +96,7 @@ const Nav = ({ userInfo = [], conversations, setConversations, setCurrentConvers
     const result = await response.json()
     console.log("IN NAV; this is the specific conversation", result)
     setConversation([]);
+    //SETCONVERSATION TO THE RESULT
   };
 
   const handleShowConfirmation = (index) => {

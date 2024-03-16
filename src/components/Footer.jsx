@@ -15,37 +15,26 @@ const Footer = ({conversation, setConversation, userInfo, conversations, current
       bot: "roger"
     })
     setConversation(clone)
-  }
 
-  useEffect(() => {
-
-    const updateConvos = async() => {
-
-      const username = userInfo[0];
-      
-      console.log("IN FOOTER; This is the username: ", username)
-      console.log("IN FOOTER; These are the complete conversations: ", conversations)
-      console.log("IN FOOTER; This is the convo: ", conversation)
+      console.log("IN FOOTER; This is the username: ", userInfo[0])
+      console.log("IN FOOTER; This is the convo: ", clone)
       console.log("IN FOOTER; This is the currentConversation: ", currentConversation)
 
+      const username = userInfo[0];
       const response = await fetch("/updateConvos", {
         method : "POST",
         headers : {
           "Content-Type" : "application/json"
         },
         body: JSON.stringify({
-          conversations: conversations,
           currentConversation: currentConversation,
-          conversationMessage: conversation,
+          conversationMessage: clone,
           username: username
         })
       });
       const result = await response.json()
       console.log("This is response from updateConvos: ", result)
-    }
-
-    updateConvos()
-  }, [conversation, conversations])
+  }
 
   return(
     <div className="footer">

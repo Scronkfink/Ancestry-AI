@@ -28,31 +28,31 @@ app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'dist', 'index.html'));
 });
 
-app.post('/signup', userController.signup, (req, res) => {
+app.post('/api/signup', userController.signup, (req, res) => {
   res.status(200).json(res.locals.user);
 });
 
-app.post('/login', userController.login, (req, res) => {
+app.post('/api/login', userController.login, (req, res) => {
   res.status(200).json(res.locals.user);
 });
 
-app.post('/getConvos', userController.getConvos, (req, res) => {
+app.post('/api/getConvos', userController.getConvos, (req, res) => {
   res.status(200).json(res.locals.conversations);
 });
 
-app.post('/updateConvos', userController.updateConvos, (req, res) => {
+app.post('/api/updateConvos', userController.updateConvos, (req, res) => {
   res.status(200).json(res.locals.user)
 });
 
-app.post("/deleteConvos", userController.deleteConvos, (req, res) => {
+app.post("/api/deleteConvos", userController.deleteConvos, (req, res) => {
   res.status(200).json(res.locals.user)
 });
 
-app.post("/getconversation", userController.getConversation, (req, res) => {
+app.post("/api/getconversation", userController.getConversation, (req, res) => {
   res.status(200).json(res.locals.conversation)
 });
 
-app.post("/createNewConvo", userController.createNewConvo, (req, res) => {
+app.post("/api/createNewConvo", userController.createNewConvo, (req, res) => {
   res.status(200).json({mission: "completed for createNewConvo"})
 });
 

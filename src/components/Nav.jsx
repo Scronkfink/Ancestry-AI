@@ -24,7 +24,7 @@ const Nav = ({ userInfo = [], conversations, setSpecificConversation, setCurrent
       }
       const username = userInfo[0];
       try {
-        const response = await fetch(`${baseUrl}/getConvos`, {
+        const response = await fetch(`${baseUrl}/api/getConvos`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -50,7 +50,7 @@ const Nav = ({ userInfo = [], conversations, setSpecificConversation, setCurrent
   const handleAddNewConvo = async () => {
     if (newConvoTitle.trim()) {
       try {
-        const response = await fetch(`${baseUrl}/createNewConvo`, {
+        const response = await fetch(`${baseUrl}/api/createNewConvo`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -88,7 +88,7 @@ const Nav = ({ userInfo = [], conversations, setSpecificConversation, setCurrent
     console.log("this is the title: ", conversations[index].title)
     setCurrentConversation(conversations[index].title);
 
-    const response = await fetch(`${baseUrl}/getconversation`, {
+    const response = await fetch(`${baseUrl}/api/getconversation`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -123,7 +123,7 @@ const Nav = ({ userInfo = [], conversations, setSpecificConversation, setCurrent
         );
       setSpecificConversation(updatedConversations);
       
-      const response = await fetch(`${baseUrl}/deleteConvos`, {
+      const response = await fetch(`${baseUrl}/api/deleteConvos`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json"

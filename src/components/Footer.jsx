@@ -26,7 +26,7 @@ const Footer = ({ conversation, setConversation, userInfo, conversations, curren
     console.log("IN FOOTER; This is the currentConversation: ", currentConversation);
 
     const username = userInfo[0];
-    const response = await fetch(`${baseUrl}/updateConvos`, {
+    const response = await fetch(`${baseUrl}/api/updateConvos`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json"

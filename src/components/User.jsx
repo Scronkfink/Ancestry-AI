@@ -31,7 +31,7 @@ const User = ({setUserInfo}) => {
     let password = document.getElementById("loginPassword").value;
   
     try {
-      const response = await fetch(`${baseUrl}/login`, {
+      const response = await fetch(`${baseUrl}/api/login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -65,7 +65,7 @@ const User = ({setUserInfo}) => {
     let password = document.getElementById("signupPassword").value;
   
     try {
-      const response = await fetch(`${baseUrl}/signup`, {
+      const response = await fetch(`${baseUrl}/api/signup`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

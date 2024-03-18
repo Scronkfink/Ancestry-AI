@@ -60,13 +60,13 @@ module.exports = {
     },
     port: 8080, 
     proxy: {
-            "/signup" : "http://localhost:3000",
-            "/login" : "http://localhost:3000",
-            "/getConvos" : "http://localhost:3000",
-            "/updateConvos" : "http://localhost:3000",
-            "/deleteConvos" : "http://localhost:3000",
-            "/getconversation" : "http://localhost:3000",
-            "/createNewConvo" : "http://localhost:3000"
+            "/api" : "http://localhost:3000",
+            // "/login" : "http://localhost:3000",
+            // "/getConvos" : "http://localhost:3000",
+            // "/updateConvos" : "http://localhost:3000",
+            // "/deleteConvos" : "http://localhost:3000",
+            // "/getconversation" : "http://localhost:3000",
+            // "/createNewConvo" : "http://localhost:3000"
             },
   },
 

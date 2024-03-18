@@ -5,18 +5,24 @@ const app = express();
 app.use(express.json());
 require('dotenv').config();
 
-const cors = require('cors');
-app.use(cors({ origin: 'http://localhost:8080' }));
 
 const mongoose = require('mongoose');
 mongoose.connect(process.env.DATABASE_KEY);
 
 app.use(express.static(path.join(__dirname, 'dist')));
 
+// Custom CORS middleware
 app.use((req, res, next) => {
-  res.header('Access-Control-Allow-Origin', 'https://ancestryai.xyz');
+  const allowedOrigins = ['https://ancestryai.xyz', 'http://localhost:8080'];
+  const origin = req.headers.origin;
+  if (allowedOrigins.includes(origin)) {
+    res.setHeader('Access-Control-Allow-Origin', origin);
+  }
+  res.header("Access-Control-Allow-Methods", "GET,HEAD,OPTIONS,POST,PUT");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization");
   next();
 });
+
 
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'dist', 'index.html'));

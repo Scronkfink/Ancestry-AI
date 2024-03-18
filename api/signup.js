@@ -1,7 +1,9 @@
-const User = require('../models/userModel');
+const User = require('../src/server/models/userModel.js');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 require('dotenv').config({ path: './.env.local' });
+const { connectToDatabase } = require('./db');
+connectToDatabase();
 
 const hashPassword = async (password) => {
   const saltRounds = 10;

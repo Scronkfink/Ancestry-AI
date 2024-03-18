@@ -1,5 +1,7 @@
-const User = require('../models/userModel');
+const User = require('../src/server/models/userModel.js');
 require('dotenv').config({ path: './.env.local' });
+const { connectToDatabase } = require('./db');
+connectToDatabase();
 
 module.exports = async (req, res) => {
   const { username } = req.body;

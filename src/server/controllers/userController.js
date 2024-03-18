@@ -1,45 +1,65 @@
 const User = require("../models/userModel")
 const userController = {}
+require('dotenv').config()
+const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
 
-userController.signup = (async(req, res, next) => {
 
-  const username = req.body.username
-  const password = req.body.password
 
-  try{
-    const response = await User.create({username, password});
-    res.locals.user = {username: response.username, password: response.password}
-    return next()
+const hashPassword = async (password) => {
+  const saltRounds = 10;
+  try {
+    const hashedPassword = await bcrypt.hash(password, saltRounds);
+    return hashedPassword;
+  } catch (error) {
+    console.error("Error hashing password:", error);
+    throw error;
   }
+};
 
-  catch (err){
-    res.status(422).send({error: err.message, message: "This username is taken"})
-    return next()
-    }
-
-});
-
-userController.login = (async(req, res, next) => {
-
-  const username = req.body.username
-  const password = req.body.password
-
-  try{
-    const response = await User.find({username, password})
-    if(response.length >= 1){
-      res.locals.user = {username: username, password: password}
-      return next()
-    }
-    else{
-      res.status(422).json({message: "That's an invalid username or password, dumbass."})
-    }
+const isValidPassword = async (password, hashedPassword) => {
+  try {
+    return await bcrypt.compare(password, hashedPassword);
+  } catch (error) {
+    console.error("Error validating password:", error);
+    return false;
   }
+};
 
-  catch (err){
-    return next()
+userController.signup = async (req, res, next) => {
+  const { username, password } = req.body;
+
+  try {
+    const hashedPassword = await hashPassword(password); // Correctly await the hashed password
+    const newUser = await User.create({ username, password: hashedPassword });
+
+    const token = jwt.sign({ id: newUser._id }, process.env.JWT_TOKEN, { expiresIn: '24h' }); // Ensure you're using JWT_SECRET
+
+    res.status(201).send({ token, username: newUser.username });
+  } catch (err) {
+    console.log(err);
+    res.status(422).send({ error: err.message, message: "This username is taken" });
+  }
+};
+
+userController.login = async (req, res, next) => {
+  const { username, password } = req.body;
+
+  try {
+    const user = await User.findOne({ username });
+
+    if (!user || !(await isValidPassword(password, user.password))) { // Ensure you await isValidPassword
+      return res.status(422).json({ message: "That's an invalid username or password." });
     }
 
-});
+    const token = jwt.sign({ id: user._id }, process.env.JWT_TOKEN, { expiresIn: '24h' }); // Matched environment variable name
+
+    res.send({ token, username: user.username });
+  } catch (err) {
+    res.status(500).send({ message: "An error occurred during the login process." });
+  }
+};
+
 
 userController.getConvos = (async(req, res, next) => {
   const username = req.body.username;

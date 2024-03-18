@@ -3,8 +3,10 @@ import "../styles/nav.css";
 import notepad from "../imgs/notepad.png";
 import roberto from "../imgs/roberto.png";
 import deletePic from "../imgs/delete.png";
+import { useNavigate } from "react-router-dom";
 
 const Nav = ({ userInfo = [], conversations, setSpecificConversation, setCurrentConversation, setConversation }) => {
+  const navigate = useNavigate()
   const [showConfirmation, setShowConfirmation] = useState(false);
   const [indexToDelete, setIndexToDelete] = useState(null);
   const [showNewConvoPrompt, setShowNewConvoPrompt] = useState(false);
@@ -80,7 +82,7 @@ const Nav = ({ userInfo = [], conversations, setSpecificConversation, setCurrent
       isSelected: i === index,
     }));
     setSpecificConversation(updatedConversations);
-    console.log("this is the title?: ", conversations[index].title)
+    console.log("this is the title: ", conversations[index].title)
     setCurrentConversation(conversations[index].title);
 
     const response = await fetch("/getconversation", {
@@ -146,6 +148,11 @@ const Nav = ({ userInfo = [], conversations, setSpecificConversation, setCurrent
     </div>
   );
 
+  const logoutClickHandler = () => {
+    localStorage.clear();
+    navigate("/")
+  };
+
   return (
     <div className="nav">
       <div className="newPrompt">
@@ -187,6 +194,7 @@ const Nav = ({ userInfo = [], conversations, setSpecificConversation, setCurrent
             </div>
           ))}
       </div>
+      <button className="logout" onClick={logoutClickHandler}>Logout</button>
       {showConfirmation && (
         <div className="confirmationBackdrop">
           <ConfirmationDialog

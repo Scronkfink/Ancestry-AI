@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from "react";
 import "../styles/conversation.css";
 
-const Conversation = ({ conversation }) => {
+const Conversation = ({ conversation, currentConversation }) => {
   const endOfMessagesRef = useRef(null);
 
   const scrollToBottom = () => {
@@ -9,6 +9,7 @@ const Conversation = ({ conversation }) => {
   };
 
   useEffect(() => {
+    console.log("scroll to bottom useEffect triggered")
     scrollToBottom();
   }, [conversation]);
 
@@ -51,7 +52,7 @@ const Conversation = ({ conversation }) => {
       ) : (
         <div className="noMessages"></div> // Placeholder text for empty conversation
       )}
-      {/* <div ref={endOfMessagesRef} /> */}
+      <div ref={endOfMessagesRef} />
     </div>
   );
 };

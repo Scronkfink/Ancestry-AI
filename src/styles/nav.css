@@ -164,4 +164,12 @@
   background-color: #545b62;
 }
 
+.logout{
+  position: absolute;
+  top: 90vh;
+  background-color: red;
+  border: 1px solid black;
+  padding: 10px;
+  cursor: pointer;
+}
 

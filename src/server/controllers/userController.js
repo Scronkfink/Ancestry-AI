@@ -42,60 +42,59 @@ userController.login = (async(req, res, next) => {
 });
 
 userController.getConvos = (async(req, res, next) => {
-  
-  const username = req.body.username
+  const username = req.body.username;
 
-  try{
-    const response = await User.find({username})
-    console.log("IN SERVER; this is response from getConvos: ", response)
-    if(response.length >= 1){
-      res.locals.conversations = response[0].conversations
-      return next()
+  try {
+    // Use projection in the query to select only the title field from each conversation
+    const response = await User.findOne({ username }, { 'conversations.title': 1, _id: 0 });
+
+    console.log("IN SERVER; this is response from getConvos: ", response);
+
+    if (response) {
+      // Map through the conversations to extract only the titles
+      const titles = response.conversations.map(convo => ({ title: convo.title }));
+      res.locals.conversations = titles;
+      return next();
+    } else {
+      console.log(response);
+      res.status(422).json({ message: "That's an invalid username or password, dumbass." });
     }
-    else{
-      console.log(response)
-      res.status(422).json({message: "That's an invalid username or password, dumbass."})
-    }
+  } catch (err) {
+    console.error(err);
+    return next();
   }
-  catch (err){
-    return next()
-    }
 });
+
 
 userController.updateConvos = async (req, res, next) => {
   const { username, conversationMessage, currentConversation } = req.body;
 
   try {
-    // Find the user document
     let user = await User.findOne({ username });
 
     if (!user) {
       return res.status(404).send({ message: "User not found" });
     }
 
-    // Check if the current conversation exists and update it
     const convoIndex = user.conversations.findIndex(convo => convo.title === currentConversation);
     if (convoIndex !== -1) {
-      // Conversation exists, append messages
-      conversationMessage.forEach(msg => {
-        if (msg.user) user.conversations[convoIndex].conversation.user.push(msg.user);
-        if (msg.bot) user.conversations[convoIndex].conversation.bot.push(msg.bot);
-      });
+      // Append the newest messages
+      user.conversations[convoIndex].conversation.user.push(conversationMessage.user);
+      user.conversations[convoIndex].conversation.bot.push(conversationMessage.bot);
+      user.markModified('conversations');
     } else {
-      // Conversation doesn't exist, create a new one
+      // If the conversation doesn't exist, create a new one
       const newConvo = {
         title: currentConversation,
         isSelected: false,
-        conversation: { user: [], bot: [] }
+        conversation: {
+          user: [conversationMessage.user],
+          bot: [conversationMessage.bot]
+        }
       };
-      conversationMessage.forEach(msg => {
-        if (msg.user) newConvo.conversation.user.push(msg.user);
-        if (msg.bot) newConvo.conversation.bot.push(msg.bot);
-      });
       user.conversations.push(newConvo);
     }
 
-    // Save the updated user document
     await user.save();
 
     res.locals.user = {
@@ -111,33 +110,32 @@ userController.updateConvos = async (req, res, next) => {
 };
 
 
-
-
-userController.deleteConvos = ( async(req,res,next) => {
-
-  const updatedConversations = req.body.updatedConversations
-  const username = req.body.username
+userController.deleteConvos = async (req, res, next) => {
+  const { username, title } = req.body;
 
   try {
+    // Find the user and update by removing the conversation with the matching title
     const updatedUser = await User.findOneAndUpdate(
       { username: username },
-      { $set: { conversations: updatedConversations } }, 
-      { new: true, returnDocument: 'after' } 
+      { $pull: { conversations: { title: title } } },
+      { new: true }
     );
 
     if (!updatedUser) {
       res.status(404).send({ message: "User not found" });
       return;
     }
-  
+
+    // Further actions here, like sending back the updated user or success message
     res.locals.user = updatedUser;
     return next();
   } catch (error) {
-    console.error("Error updating user conversations:", error);
+    console.error("Error deleting conversation:", error);
     res.status(500).send({ message: "Houston, we've had a problem updating the database" });
     return next();
   }
-});
+};
+
 
 userController.getConversation = async (req, res, next) => {
   const { username, title } = req.body;

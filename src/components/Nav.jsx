@@ -4,7 +4,7 @@ import notepad from "../imgs/notepad.png";
 import roberto from "../imgs/roberto.png";
 import deletePic from "../imgs/delete.png";
 
-const Nav = ({ userInfo = [], conversations, setConversations, setCurrentConversation, setConversation }) => {
+const Nav = ({ userInfo = [], conversations, setSpecificConversation, setCurrentConversation, setConversation }) => {
   const [showConfirmation, setShowConfirmation] = useState(false);
   const [indexToDelete, setIndexToDelete] = useState(null);
   const [showNewConvoPrompt, setShowNewConvoPrompt] = useState(false);
@@ -14,7 +14,7 @@ const Nav = ({ userInfo = [], conversations, setConversations, setCurrentConvers
 
     const getUserConversations = async () => {
       if(userInfo.length === 0){
-        setConversations([])
+        setSpecificConversation([]);
         return
       }
       const username = userInfo[0];
@@ -30,7 +30,7 @@ const Nav = ({ userInfo = [], conversations, setConversations, setCurrentConvers
         });
         const result = await response.json();
         console.log("IN NAV; this is result from getUserConversations", result);
-        setConversations(result);
+        setSpecificConversation(result);
       } catch (error) {
         console.error("Error fetching conversations:", error);
       }
@@ -62,7 +62,7 @@ const Nav = ({ userInfo = [], conversations, setConversations, setCurrentConvers
             isSelected: false,
             conversation: { user: [], bot: [] }
           };
-          setConversations(conversations.concat(newConvo));
+          setSpecificConversation(conversations.concat(newConvo));
         } else {
           console.error("Failed to create new conversation");
         }
@@ -79,7 +79,7 @@ const Nav = ({ userInfo = [], conversations, setConversations, setCurrentConvers
       ...convo,
       isSelected: i === index,
     }));
-    setConversations(updatedConversations);
+    setSpecificConversation(updatedConversations);
     console.log("this is the title?: ", conversations[index].title)
     setCurrentConversation(conversations[index].title);
 
@@ -95,8 +95,8 @@ const Nav = ({ userInfo = [], conversations, setConversations, setCurrentConvers
     })
     const result = await response.json()
     console.log("IN NAV; this is the specific conversation", result)
-    setConversation([]);
-    //SETCONVERSATION TO THE RESULT
+    let newConvo = result.conversation
+    setConversation(newConvo);
   };
 
   const handleShowConfirmation = (index) => {
@@ -111,27 +111,32 @@ const Nav = ({ userInfo = [], conversations, setConversations, setCurrentConvers
 
   const handleConfirmDelete = async() => {
     if (indexToDelete !== null) {
+
+      const titleToDelete = conversations[indexToDelete].title;
       const updatedConversations = conversations.filter(
-        (_, index) => index !== indexToDelete
-      );
-      setConversations(updatedConversations);
-
-        const response = await fetch("/deleteConvos",{
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json"
-          },
-          body: JSON.stringify({
-            updatedConversations: updatedConversations,
-            username: userInfo[0]
-          })
+            (_, index) => index !== indexToDelete
+        );
+      setSpecificConversation(updatedConversations);
+      
+      const response = await fetch("/deleteConvos", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          title: titleToDelete,
+          username: userInfo[0]
         })
-
-        const result = await response.json()
-        console.log("IN NAV; this is response from delete conversation")
+      });
+  
+      const result = await response.json();
+      console.log("IN NAV; this is response from delete conversation", result);
+  
       handleHideConfirmation();
     }
+    setConversation([])
   };
+  
 
   const ConfirmationDialog = ({ onCancel, onConfirm }) => (
     <div className="confirmationDialog">

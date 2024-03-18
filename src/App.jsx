@@ -10,7 +10,8 @@ import { Route, Routes} from "react-router-dom";
 
 const App = () => {
   const [conversation, setConversation] = useState([]);
-  const [conversations, setConversations] = useState([]);
+  const [specificConversation, setSpecificConversation] = useState([]);
+  //formerly [setConversations, conversations]
   const [currentConversation, setCurrentConversation] = useState([]);
   const [userInfo, setUserInfo] = useState([]);
 
@@ -22,8 +23,8 @@ const App = () => {
 
       <Route path="/home" element={ 
         <div className="app">
-          <Nav userInfo={userInfo} conversations={conversations} setConversations={setConversations} setCurrentConversation = {setCurrentConversation} setConversation= {setConversation}/>
-          <Footer conversation={conversation} setConversation={setConversation} userInfo={userInfo} conversations={conversations} currentConversation={currentConversation}/>
+          <Nav userInfo={userInfo} conversations={specificConversation} setSpecificConversation={setSpecificConversation} setCurrentConversation = {setCurrentConversation} setConversation= {setConversation}/>
+          <Footer conversation={conversation} setConversation={setConversation} userInfo={userInfo} conversations={specificConversation} currentConversation={currentConversation}/>
           <Conversation conversation={conversation} setConversation={setConversation} userInfo={userInfo} />
         </div>}
        />

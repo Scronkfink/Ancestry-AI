@@ -13,6 +13,10 @@ mongoose.connect(process.env.DATABASE_KEY);
 
 app.use(express.static(path.join(__dirname, 'dist')));
 
+app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Origin', 'https://ancestryai.xyz');
+  next();
+});
 
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'dist', 'index.html'));

@@ -1,6 +1,6 @@
 const User = require('../src/server/models/userModel.js');
 require('dotenv').config({ path: './.env.local' });
-const { connectToDatabase } = require('./db');
+const { connectToDatabase } = require('../db.js');
 connectToDatabase();
 
 userController.createNewConvo = async (req, res, next) => {

@@ -5,7 +5,10 @@ import roberto from "../imgs/roberto.png";
 import deletePic from "../imgs/delete.png";
 import { useNavigate } from "react-router-dom";
 
+const baseUrl = process.env.REACT_APP_API_URL
+
 const Nav = ({ userInfo = [], conversations, setSpecificConversation, setCurrentConversation, setConversation }) => {
+
   const navigate = useNavigate()
   const [showConfirmation, setShowConfirmation] = useState(false);
   const [indexToDelete, setIndexToDelete] = useState(null);
@@ -21,7 +24,7 @@ const Nav = ({ userInfo = [], conversations, setSpecificConversation, setCurrent
       }
       const username = userInfo[0];
       try {
-        const response = await fetch("/getConvos", {
+        const response = await fetch(`${baseUrl}/getConvos`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -47,7 +50,7 @@ const Nav = ({ userInfo = [], conversations, setSpecificConversation, setCurrent
   const handleAddNewConvo = async () => {
     if (newConvoTitle.trim()) {
       try {
-        const response = await fetch("/createNewConvo", {
+        const response = await fetch(`${baseUrl}/createNewConvo`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -85,7 +88,7 @@ const Nav = ({ userInfo = [], conversations, setSpecificConversation, setCurrent
     console.log("this is the title: ", conversations[index].title)
     setCurrentConversation(conversations[index].title);
 
-    const response = await fetch("/getconversation", {
+    const response = await fetch(`${baseUrl}/getconversation`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -120,7 +123,7 @@ const Nav = ({ userInfo = [], conversations, setSpecificConversation, setCurrent
         );
       setSpecificConversation(updatedConversations);
       
-      const response = await fetch("/deleteConvos", {
+      const response = await fetch(`${baseUrl}/deleteConvos`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json"

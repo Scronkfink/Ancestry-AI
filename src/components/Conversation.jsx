@@ -1,6 +1,8 @@
 import React, { useEffect, useRef } from "react";
 import "../styles/conversation.css";
 
+const baseUrl = process.env.REACT_APP_API_URL
+
 const Conversation = ({ conversation, currentConversation }) => {
   const endOfMessagesRef = useRef(null);
 

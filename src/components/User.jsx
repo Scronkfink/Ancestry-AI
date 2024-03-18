@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import "../styles/user.css";
 import { useNavigate } from 'react-router-dom';
 
+const baseUrl = process.env.REACT_APP_API_URL
 
 const User = ({setUserInfo}) => {
   const navigate = useNavigate();
@@ -30,7 +31,7 @@ const User = ({setUserInfo}) => {
     let password = document.getElementById("loginPassword").value;
   
     try {
-      const response = await fetch("/login", {
+      const response = await fetch(`${baseUrl}/login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -64,7 +65,7 @@ const User = ({setUserInfo}) => {
     let password = document.getElementById("signupPassword").value;
   
     try {
-      const response = await fetch("/signup", {
+      const response = await fetch(`${baseUrl}/signup`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

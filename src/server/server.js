@@ -5,6 +5,9 @@ const app = express();
 app.use(express.json());
 require('dotenv').config();
 
+const cors = require('cors');
+app.use(cors({ origin: 'http://localhost:8080' }));
+
 const mongoose = require('mongoose');
 mongoose.connect(process.env.DATABASE_KEY);
 

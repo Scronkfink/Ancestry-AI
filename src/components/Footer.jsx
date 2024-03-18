@@ -1,6 +1,10 @@
 import React from "react";
 import "../styles/footer.css";
 
+
+const baseUrl = process.env.REACT_APP_API_URL
+
+
 const Footer = ({ conversation, setConversation, userInfo, conversations, currentConversation }) => {
 
   const conversationUpdate = async (e) => {
@@ -22,7 +26,7 @@ const Footer = ({ conversation, setConversation, userInfo, conversations, curren
     console.log("IN FOOTER; This is the currentConversation: ", currentConversation);
 
     const username = userInfo[0];
-    const response = await fetch("/updateConvos", {
+    const response = await fetch(`${baseUrl}/updateConvos`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json"

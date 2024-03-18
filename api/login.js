@@ -1,7 +1,7 @@
 const User = require('../src/server/models/userModel.js');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-require('dotenv').config({ path: './.env.local' });
+require('dotenv').config();
 const { connectToDatabase } = require('../db.js');
 connectToDatabase();
 

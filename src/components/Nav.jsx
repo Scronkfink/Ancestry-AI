@@ -23,6 +23,7 @@ const Nav = ({ userInfo = [], conversations, setSpecificConversation, setCurrent
         return
       }
       const username = userInfo[0];
+      console.log("This is username for getConvos: ", username)
       try {
         const response = await fetch(`${baseUrl}/api/getConvos`, {
           method: "POST",
@@ -152,6 +153,7 @@ const Nav = ({ userInfo = [], conversations, setSpecificConversation, setCurrent
   );
 
   const logoutClickHandler = () => {
+    setConversation([]);
     localStorage.clear();
     navigate("/")
   };

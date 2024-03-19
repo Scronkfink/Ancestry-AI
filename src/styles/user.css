@@ -1,4 +1,8 @@
+@import url('https://fonts.googleapis.com/css2?family=Afacad:ital,wght@0,400..700;1,400..700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Pathway+Extreme:ital,opsz,wght@0,8..144,100..900;1,8..144,100..900&display=swap");
+
 .user {
+  font-family: 'Afacad', sans-serif;
   display: flex;
   flex-direction: column;
   height: 100vh;
@@ -6,17 +10,78 @@
   align-items: center;
   justify-content: center;
   position: relative;
+  min-width: 690px;
+}
+.demo{
+  display: flex;
+  position: absolute;
+  flex-direction: column;
+  left: 0px;
+  background-color: #FFD9CE;
+  color:#420061;
+  font-weight: bold;
+  height: 100vh;
+  width: calc(100vw - 500px);
+  min-width: 185px;
+  justify-content: center;
+  padding-left: 20px;
+}
+.demo > h1{
+  font-size: calc(3vw + 5px);
+}
+.demo > p{
+  font-size: calc(2.5vw + 5px);
+}
+.fade-enter {
+  opacity: 0;
+  z-index: 1;
+}
+
+.fade-enter-active {
+  opacity: 1;
+  transition: opacity 500ms ease-in;
+}
+
+.fade-exit {
+  opacity: 1;
+}
+
+.fade-exit-active {
+  opacity: 0;
+  transition: opacity 500ms ease-in;
 }
 
 .user > h1 {
-  margin-bottom: 20px;
+  position: absolute;
+  color: #420061;
+  top: 15px;
+  left: 30px;
+  z-index: 1;
+}
+
+.buttons-container{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  position: absolute;
+  height: 100vh;
+  width: 500px;
+  right: 0px;
+  display: flex;
+  background-color: #FAF9F6;
+}
+.buttons-container > h1{
+  font-family: "Pathway Extreme", sans-serif;
 }
 
 .buttons {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  width: 500px;
+  font-family: 'Afacad', sans-serif;
+  display: flex;
+  justify-content: space-around;
+  padding-top: 20px;
+  width: 450px;
   height: 100px;
 }
 
@@ -24,7 +89,9 @@
 .signup {
   height: 50px;
   width: 200px;
-  background-color: rgb(28, 99, 123);
+  border-radius: 10px;
+  font-size: large;
+  background-color: #55868C;
   color: white;
   cursor: pointer;
 }
@@ -39,7 +106,7 @@
   border-radius: 8px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   width: 300px;
-  background-color: white;
+  background-color: #FAF9F6;
   position: absolute;
   top: 50%;
   left: 50%;
@@ -67,16 +134,16 @@
 }
 
 .cancel {
-  background-color: #ff3333;
-  color: white;
+  background-color: white;
+  color: #011936;
 }
 
 .signup-confirm {
-  background-color: #4caf50;
+  background-color: #011936;
   color: white;
 }
 
 .cancel:hover,
 .signup-confirm:hover {
-  background-color: #e60000;
+  background-color: #9FC490;
 }

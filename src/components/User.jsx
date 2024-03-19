@@ -1,10 +1,15 @@
-import React, { useState } from "react";
-import "../styles/user.css";
+import React, { useState, useEffect } from "react";
+import { CSSTransition } from 'react-transition-group';
 import { useNavigate } from 'react-router-dom';
-
+import "../styles/user.css";
 const baseUrl = process.env.REACT_APP_API_URL
 
+//This page handles the users signing in and singing up.
+//The states here trigger the display of login and signup portals.
+//We are using local storage to persist non-confidential userInfo.
+
 const User = ({setUserInfo}) => {
+
   const navigate = useNavigate();
   const [login, setLogin] = useState(false);
   const [signup, setSignup] = useState(false);
@@ -42,14 +47,13 @@ const User = ({setUserInfo}) => {
         }),
       });
       const result = await response.json();
-      console.log("login result:", result);
-      if (result.token) { // Assuming the server responds with a token upon successful authentication
-        // Storing token in localStorage (or sessionStorage as per your security consideration)
+      // console.log("login result: ", result);
+      if (result.token) {
         localStorage.setItem("token", result.token);
-        // Adjust setUserInfo to include username and possibly the token for subsequent authenticated requests
         setUserInfo([ result.username, result.token ]);
         navigate('/home');
-      } else {
+      } 
+      else {
         console.error("Login failed: ", result.message);
       }
     } catch (error) {
@@ -76,12 +80,10 @@ const User = ({setUserInfo}) => {
         }),
       });
       const result = await response.json();
-      console.log("signup result:", result);
-      if (result.token) { // Similar assumption as login
-        // Storing token in localStorage (or sessionStorage)
+      // console.log("signup result: ", result);
+      if (result.token) {
         localStorage.setItem("token", result.token);
-        // Adjust setUserInfo similarly to login
-        setUserInfo({ username: result.username, token: result.token });
+        setUserInfo([result.username, result.token]);
         navigate('/home');
       } else {
         console.error("Signup failed: ", result.message);
@@ -90,11 +92,74 @@ const User = ({setUserInfo}) => {
       console.error("Error:", error);
     }
   };
-  
+
+  const prompts = [
+    {
+      prompt: "Hey nana, give me your favorite recipe for",
+      continuations: ["making a lobster ceviche.", "baking a chocolate cake.", "cooking a vegan lasagna."]
+    },
+    {
+      prompt: "Aye pops, what's your best tip for",
+      continuations: ["organizing a small kitchen?", "meal prepping for the week?", "selecting the freshest seafood?"]
+    },
+    {
+      prompt: "Hey ma, how would you prepare",
+      continuations: ["your morning coffee?", "a quick and healthy breakfast?", "a romantic dinner for two?"]
+    }
+  ];
+
+  let promptCount = 0
+  let continuationCount = 0
+  const [currentPrompt, setCurrentPrompt] = useState(prompts[promptCount].prompt);
+  const [currentContinuation, setCurrentContinuation] = useState(prompts[promptCount].continuations
+    [continuationCount]);
+  const [showPrompt, setShowPrompt] = useState(true);
+  const [showContinuation, setShowContinuation] = useState(true);
+
+  useEffect(() => {
+    setInterval(() => {
+      setShowPrompt(false);
+      setTimeout(() => {
+        promptCount++;
+        if (promptCount === prompts.length) {
+          promptCount = 0;
+        }
+        setCurrentPrompt(prompts[promptCount].prompt);
+        setShowPrompt(true);
+      }, 500);
+    }, 9000);
+  }, []);
+
+  useEffect(() => {
+    setInterval(() => {
+      setShowContinuation(false);
+      setTimeout(() => {
+        continuationCount++;
+        if (continuationCount === prompts.length) {
+          continuationCount = 0;
+        }
+        setCurrentContinuation(prompts[promptCount].continuations
+          [continuationCount]);
+          setShowContinuation(true);
+      }, 500);
+    }, 3000);
+  }, []);
+
+
 
   return (
     <div className="user">
-      <h1>Welcome to the Riva LLM</h1>
+      <h1>Ancestry AI</h1>
+    <div className="demo">
+    <CSSTransition in={showPrompt} timeout={500} classNames="fade" unmountOnExit>
+          <h1>{currentPrompt}</h1>
+      </CSSTransition>
+      <CSSTransition in={showContinuation} timeout={500} classNames="fade" unmountOnExit>
+          <p>{currentContinuation}</p>
+      </CSSTransition>
+    </div>
+    <div className="buttons-container">
+      <h1>Take the Ride</h1>
       <div className="buttons">
         <button className="login" onClick={loginClickHandler}>
           Login
@@ -102,6 +167,7 @@ const User = ({setUserInfo}) => {
         <button className="signup" onClick={signupClickHandler}>
           Signup
         </button>
+      </div>
       </div>
       {login && (
         <div className="login-form">

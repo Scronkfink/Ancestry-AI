@@ -3,7 +3,7 @@
   position: absolute;
   width: 50%;
   height: 50px;
-  border: 1px solid red;
+  border: 1px solid lightgrey;
   border-radius: 15px;
   top: 90%;
   left: 40%;
@@ -20,9 +20,14 @@
   outline: none;
 }
 .button{
-  border: 1px solid green;
-  width: 40px;
-  height: 40px;
+  width: 35px;
+  height: 35px;
+  border-radius: 10px;
+  background-color: #848484;
+  border: none;
+  color: white;
   margin-right: 10px;
   cursor: pointer;
+  font-size: 20px;
+  font-weight: 500;
 }

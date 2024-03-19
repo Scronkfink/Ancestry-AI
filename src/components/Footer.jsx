@@ -46,8 +46,8 @@ const Footer = ({ conversation, setConversation, userInfo, conversations, curren
 
   return (
     <div className="footer">
-      <input id="input" placeholder="Message the King of Camelot"></input>
-      <button className="button" onClick={conversationUpdate}>Send</button>
+      <input id="input" placeholder="Ask away..."></input>
+      <button className="button" onClick={conversationUpdate}>&#8593;</button>
     </div>
   );
 };

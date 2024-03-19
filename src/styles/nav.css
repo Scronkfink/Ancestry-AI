@@ -1,3 +1,12 @@
+@import url('https://fonts.googleapis.com/css2?family=Afacad:ital,wght@0,400..700;1,400..700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Pathway+Extreme:ital,opsz,wght@0,8..144,100..900;1,8..144,100..900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Lexend+Deca:wght@100..900&display=swap");
+
+/* font-family: 'Lexend Deca', sans-serif; */
+/* font-family: 'Afacad', sans-serif; */
+/* font-family: "Pathway Extreme", sans-serif; */
+
+
 .nav{
   display: flex;
   flex-direction: column;
@@ -5,6 +14,7 @@
   width: 300px;
   background-color: rgb(245, 245, 245);
   align-items: center;
+  font-family: 'Afacad', sans-serif;
 }
 .newPrompt{
   position: absolute;
@@ -17,7 +27,12 @@
   align-items: center;
 }
 .newPrompt > p{
-  padding-right: 25px;
+  display: flex;
+  flex-grow: 1;
+  margin-left: 10px;
+  font-size: large;
+  font-weight: 400;
+  color: black;
 }
 .notepad{
   height: 50px;
@@ -45,7 +60,7 @@
   top: 130px;
   width: 300px;
   margin-left: 15px;
-  max-height: calc(100vh - 130px); /* Adjust based on your needs */
+  max-height: calc(100vh - 130px);
   overflow-y: auto;
 }
 
@@ -165,11 +180,21 @@
 }
 
 .logout{
+  cursor: pointer;
+  height: 25px;
+  width: 80px;
+}
+.settings{
+  cursor: pointer;
+  height: 25px;
+  width: 80px;
+}
+.bottom-footer{
+  display: flex;
+  justify-content: space-around;
   position: absolute;
-  top: 90vh;
-  background-color: red;
+  bottom: 20px;
+  width: 300px;
   border: 1px solid black;
   padding: 10px;
-  cursor: pointer;
 }
-

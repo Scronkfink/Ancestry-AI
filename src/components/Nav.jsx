@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "../styles/nav.css";
 import notepad from "../imgs/notepad.png";
-import roberto from "../imgs/roberto.png";
+import dna from "../imgs/dna.jpg";
 import deletePic from "../imgs/delete.png";
 import { useNavigate } from "react-router-dom";
 
@@ -106,6 +106,7 @@ const Nav = ({ userInfo = [], conversations, setSpecificConversation, setCurrent
   };
 
   const handleShowConfirmation = (index) => {
+    e.preventDefault()
     setShowConfirmation(true);
     setIndexToDelete(index);
   };
@@ -161,45 +162,40 @@ const Nav = ({ userInfo = [], conversations, setSpecificConversation, setCurrent
   return (
     <div className="nav">
       <div className="newPrompt">
-        <img src={roberto} alt="Roberto" className="roberto" />
-        <p>King of Camelot LLM</p>
+        <img src={dna} className="roberto" />
+        <p>Ancestry AI</p>
         <button className="notepadButton" onClick={handleNewConvoClick}>
-          <img src={notepad} alt="Notepad" className="notepad" />
+          <img src={notepad} className="notepad" />
         </button>
       </div>
       <p className="convoHeader">Past Conversations:</p>
       <div className="conversations">
         {conversations.length > 0 &&
           conversations.map((convo, index) => (
-            <div
-              className="convo"
-              key={index}
-              onClick={() => handleConvoClick(index)}
+            <div className="convo" key={index} onClick={() => handleConvoClick(index)}
               style={{
                 backgroundColor: convo.isSelected ? "grey" : "transparent",
               }}
             >
               <p className="convoTitle">{convo.title}</p>
               {convo.isSelected && (
-                <button
-                  className="delete"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    handleShowConfirmation(index);
-                  }}
+                <button className="delete" onClick={() => {handleShowConfirmation(index)}}
                   style={{
                     background: "transparent",
                     border: "none",
                     padding: 0,
                   }}
                 >
-                  <img src={deletePic} alt="Delete" className="deletePic" />
+                <img src={deletePic} className="deletePic" />
                 </button>
               )}
             </div>
           ))}
       </div>
+      <div className="bottom-footer">
+      <button className="settings">settings</button>
       <button className="logout" onClick={logoutClickHandler}>Logout</button>
+      </div>
       {showConfirmation && (
         <div className="confirmationBackdrop">
           <ConfirmationDialog
@@ -210,10 +206,7 @@ const Nav = ({ userInfo = [], conversations, setSpecificConversation, setCurrent
       )}
       {showNewConvoPrompt && (
         <div className="newConvoPrompt">
-          <input
-            type="text"
-            value={newConvoTitle}
-            onChange={(e) => setNewConvoTitle(e.target.value)}
+          <input type="text" value={newConvoTitle} onChange={(e) => setNewConvoTitle(e.target.value)}
             placeholder="Enter conversation title..."
           />
           <button onClick={handleAddNewConvo}>Add Conversation</button>

@@ -3,7 +3,7 @@ require('dotenv').config();
 const { connectToDatabase } = require('../db.js');
 connectToDatabase();
 
-userController.createNewConvo = async (req, res, next) => {
+module.exports = async (req, res, next) => {
 
   const { username, title } = req.body;
 

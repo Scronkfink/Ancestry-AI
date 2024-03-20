@@ -5,8 +5,8 @@
   border: 1px solid lightgrey;
   border-radius: 15px;
   top: 90%;
-  left: calc(100px + 40%); /* Adjust as necessary to prevent pressing against the right */
-  right: 50px; /* Ensures the footer is always 50px from the right edge */
+  left: calc(100px + 40%);
+  right: 50px;
   align-items: center;
 }
 #input{

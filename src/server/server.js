@@ -9,7 +9,7 @@ mongoose.connect(process.env.DATABASE_KEY);
 
 const app = express();
 app.use(express.json());
-app.use(express.static(path.join(__dirname, 'dist')));
+app.use(express.static(path.join(__dirname, '../../dist')));
 
 // Custom CORS middleware
 app.use((req, res, next) => {

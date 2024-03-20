@@ -168,6 +168,7 @@ const User = ({setUserInfo}) => {
           Signup
         </button>
       </div>
+      <div className="userFooter">Echoes of their wisdom, forever.</div>
       </div>
       {login && (
         <div className="login-form">

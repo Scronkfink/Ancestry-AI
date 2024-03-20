@@ -151,3 +151,8 @@
 .signup-confirm:hover {
   background-color: #9FC490;
 }
+
+.userFooter{
+  position: absolute;
+  bottom: 20px;
+}

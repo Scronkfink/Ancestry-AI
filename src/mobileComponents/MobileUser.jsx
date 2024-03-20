@@ -102,6 +102,7 @@ const MobileUser = ({ setUserInfo }) => {
           Signup
         </button>
       </div>
+      <div className="mobileFooter">Echoes of their wisdom, forever.</div>
       {login && (
         <div className="login-form">
           <input placeholder="Username" className="username" id="loginUsername" />

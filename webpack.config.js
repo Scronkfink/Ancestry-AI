@@ -50,7 +50,6 @@ module.exports = {
     new webpack.DefinePlugin({
       'process.env.REACT_APP_API_URL': JSON.stringify(process.env.REACT_APP_API_URL),
       'process.env.JWT_TOKEN': JSON.stringify(process.env.JWT_TOKEN),
-      'process.env.DATABASE_KEY': JSON.stringify(process.env.DATABASE_KEY),
     }),
   ],
   devServer: {

@@ -1,14 +1,14 @@
 const express = require('express');
 const path = require('path');
 const userController = require('./controllers/userController');
-const app = express();
-app.use(express.json());
 require('dotenv').config();
 
 
 const mongoose = require('mongoose');
 mongoose.connect(process.env.DATABASE_KEY);
 
+const app = express();
+app.use(express.json());
 app.use(express.static(path.join(__dirname, 'dist')));
 
 // Custom CORS middleware
@@ -57,8 +57,9 @@ app.post("/api/createNewConvo", userController.createNewConvo, (req, res) => {
 });
 
 
-app.listen(3000, () => {
-  console.log('Server online');
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+  console.log(`Server online on port ${PORT}`);
 });
 
 mongoose.connection.once('open', () => {

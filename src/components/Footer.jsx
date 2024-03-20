@@ -8,15 +8,22 @@ const baseUrl = process.env.REACT_APP_API_URL
 const Footer = ({ conversation, setConversation, userInfo, conversations, currentConversation }) => {
 
   const conversationUpdate = async (e) => {
+
+    console.log("This is the current conversation: ", currentConversation)
+
+    if(currentConversation.length === 0){
+      alert("Please select a conversation")
+      return
+    }
+
     e.preventDefault();
     let input = document.getElementById("input").value;
-    document.getElementById("input").value = ''; // Clear input after sending
+    document.getElementById("input").value = '';
 
-    // Prepare the latest messages to send
     const latestUserMessage = input;
-    const latestBotMessage = "roger"; // Assuming this is determined somehow
+    const latestBotMessage = "roger";
 
-    // Update the local state to reflect this new message (optional, depending on your app's logic)
+
     setConversation({
       user: [...conversation.user, latestUserMessage],
       bot: [...conversation.bot, latestBotMessage]

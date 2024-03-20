@@ -4,10 +4,11 @@ import notepad from "../imgs/notepad.png";
 import dna from "../imgs/dna.jpg";
 import deletePic from "../imgs/delete.png";
 import { useNavigate } from "react-router-dom";
+import Settings from "./Settings";
 
 const baseUrl = process.env.REACT_APP_API_URL
 
-const Nav = ({ userInfo = [], conversations, setSpecificConversation, setCurrentConversation, setConversation }) => {
+const Nav = ({ userInfo = [], conversations, setSpecificConversation, setCurrentConversation, setConversation, setShowSettings, showSettings }) => {
 
   const navigate = useNavigate()
   const [showConfirmation, setShowConfirmation] = useState(false);
@@ -106,7 +107,6 @@ const Nav = ({ userInfo = [], conversations, setSpecificConversation, setCurrent
   };
 
   const handleShowConfirmation = (index) => {
-    e.preventDefault()
     setShowConfirmation(true);
     setIndexToDelete(index);
   };
@@ -144,6 +144,9 @@ const Nav = ({ userInfo = [], conversations, setSpecificConversation, setCurrent
     setConversation([])
   };
   
+  const settingsClickHandler = () => {
+    setShowSettings(true);
+  }
 
   const ConfirmationDialog = ({ onCancel, onConfirm }) => (
     <div className="confirmationDialog">
@@ -179,7 +182,7 @@ const Nav = ({ userInfo = [], conversations, setSpecificConversation, setCurrent
             >
               <p className="convoTitle">{convo.title}</p>
               {convo.isSelected && (
-                <button className="delete" onClick={() => {handleShowConfirmation(index)}}
+                <button className="delete" onClick={(e) => {handleShowConfirmation(index)}}
                   style={{
                     background: "transparent",
                     border: "none",
@@ -193,9 +196,12 @@ const Nav = ({ userInfo = [], conversations, setSpecificConversation, setCurrent
           ))}
       </div>
       <div className="bottom-footer">
-      <button className="settings">settings</button>
+      <button className="settings" onClick={settingsClickHandler}>Settings</button>
       <button className="logout" onClick={logoutClickHandler}>Logout</button>
       </div>
+      {showSettings && (
+        <Settings setShowSettings={setShowSettings}/>
+      )}
       {showConfirmation && (
         <div className="confirmationBackdrop">
           <ConfirmationDialog

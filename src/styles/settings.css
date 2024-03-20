@@ -1,0 +1,119 @@
+.settingsDisplay{
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  border: 1px solid rgb(135, 135, 135);
+  border-radius: 10px;
+  position: absolute;
+  top: 20vh;
+  left: 30vw;
+  height: 60vh;
+  width: 50vw;
+}
+.navbar{
+  border-bottom: 1px solid rgb(0, 0, 0);
+  align-items: center;
+  padding: 10px;
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+}
+.navbar > h1{
+  margin-left: 10px;
+  font-size: 20px;
+}
+.navbar > button{
+  margin-right: 10px;
+  height: 30px;
+  width: 30px;
+  font-size: large;
+  color: grey;
+  background-color: white;
+  border: none;
+  cursor: pointer;
+}
+.buttonsContainer{
+  display: flex;
+  position: absolute;
+  justify-content: space-between;
+  flex-direction: column;
+  top: 60px;
+  height: 40%;
+  width: 20%;
+  left: 10px;
+}
+.buttonsContainer > button{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 30px;
+  border-radius: 10px;
+  background: none;
+  border: none;
+  cursor: pointer; 
+  padding-left: 10px;
+}
+.buttonsContainer > button:hover{
+  background-color: grey;
+}
+.profile{
+  position: absolute;
+  flex-direction: column;
+  margin: 10px;
+  padding: 10px;
+  display: flex;
+  border: 1px solid red;
+  top: 50px;
+  width: 70%;
+  height: 80%;
+  right: 0;
+}
+.textData{
+  position: absolute;
+  flex-direction: column;
+  margin: 10px;
+  padding: 10px;
+  display: flex;
+  border: 1px solid red;
+  top: 50px;
+  width: 70%;
+  height: 80%;
+  right: 0;
+}
+.speechData{
+  position: absolute;
+  flex-direction: column;
+  margin: 10px;
+  padding: 10px;
+  display: flex;
+  border: 1px solid red;
+  top: 50px;
+  width: 70%;
+  height: 80%;
+  right: 0;
+}
+.payments{
+  position: absolute;
+  flex-direction: column;
+  margin: 10px;
+  padding: 10px;
+  display: flex;
+  border: 1px solid red;
+  top: 50px;
+  width: 70%;
+  height: 80%;
+  right: 0;
+}
+.model{
+  position: absolute;
+  flex-direction: column;
+  margin: 10px;
+  padding: 10px;
+  display: flex;
+  border: 1px solid red;
+  top: 50px;
+  width: 70%;
+  height: 80%;
+  right: 0;
+}

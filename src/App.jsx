@@ -12,7 +12,7 @@ const App = () => {
   const [specificConversation, setSpecificConversation] = useState([]);
   const [currentConversation, setCurrentConversation] = useState([]);
   const [showSettings, setShowSettings] = useState(false);
-  const [isMobile, setIsMobile] = useState(window.innerWidth < 390);
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 640);
 
   const [userInfo, setUserInfo] = useState(() => {
     const savedUserInfo = localStorage.getItem('userInfo');
@@ -25,20 +25,22 @@ const App = () => {
 
   useEffect(() => {
     const handleResize = () => {
-      setIsMobile(window.innerWidth < 390);
+      setIsMobile(window.innerWidth < 640);
     };
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
   if (isMobile) {
-    return <MobileApp />;
+    return(
+    <MobileApp setUserInfo={setUserInfo} userInfo={userInfo} conversations={specificConversation} setSpecificConversation={setSpecificConversation} showSettings={showSettings} setShowSettings={setShowSettings} currentConversation={currentConversation} setCurrentConversation={setCurrentConversation} setConversation={setConversation}conversation={conversation}/>
+  )
   }
 
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<User setUserInfo={setUserInfo} userInfo={userInfo}/>}/>
+        <Route path="/" element={<User setUserInfo={setUserInfo}/>}/>
         <Route path="/home" element={ 
           <div className="app">
             <Nav userInfo={userInfo} conversations={specificConversation} setSpecificConversation={setSpecificConversation} setCurrentConversation={setCurrentConversation} setConversation={setConversation} showSettings={showSettings} setShowSettings={setShowSettings}/>

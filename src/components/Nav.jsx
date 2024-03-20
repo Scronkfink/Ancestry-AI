@@ -6,7 +6,7 @@ import deletePic from "../imgs/delete.png";
 import { useNavigate } from "react-router-dom";
 import Settings from "./Settings";
 
-const baseUrl = process.env.REACT_APP_API_URL
+const baseUrl = process.env.REACT_APP_API_URL || ""
 
 const Nav = ({ userInfo = [], conversations, setSpecificConversation, setCurrentConversation, setConversation, setShowSettings, showSettings }) => {
 

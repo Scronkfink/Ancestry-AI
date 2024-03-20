@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { CSSTransition } from 'react-transition-group';
 import { useNavigate } from 'react-router-dom';
 import "../styles/user.css";
-const baseUrl = process.env.REACT_APP_API_URL
+const baseUrl = process.env.REACT_APP_API_URL || ""
 
 //This page handles the users signing in and singing up.
 //The states here trigger the display of login and signup portals.

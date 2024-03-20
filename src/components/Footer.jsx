@@ -2,7 +2,7 @@ import React from "react";
 import "../styles/footer.css";
 
 
-const baseUrl = process.env.REACT_APP_API_URL
+const baseUrl = process.env.REACT_APP_API_URL || ""
 
 
 const Footer = ({ conversation, setConversation, userInfo, conversations, currentConversation }) => {

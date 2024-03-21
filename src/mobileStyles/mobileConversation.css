@@ -56,21 +56,20 @@
 .mobileNoMessages{
   position: absolute;
   top: 30%;
-  left: 40%;
+  align-self: center;
   font-family: 'Afacad', sans-serif;
   display: flex;
   justify-self: center;
   color:#420061;
-  font-size: x-large;
+  font-size: xx-large;
 }
 .hamburger{
   border: none;
   background: none;
+  cursor: pointer;
   position: absolute;
   top: 10px;
-  left: 10px;
-  height: 35px;
-  cursor: pointer;
+  left: 10px;;
 }
 .hamburger > img{
   height: 35px;

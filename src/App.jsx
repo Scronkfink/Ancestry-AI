@@ -45,7 +45,7 @@ const App = () => {
           <div className="app">
             <Nav userInfo={userInfo} conversations={specificConversation} setSpecificConversation={setSpecificConversation} setCurrentConversation={setCurrentConversation} setConversation={setConversation} showSettings={showSettings} setShowSettings={setShowSettings}/>
             <Footer conversation={conversation} setConversation={setConversation} userInfo={userInfo} conversations={specificConversation} currentConversation={currentConversation}/>
-            <Conversation conversation={conversation} setConversation={setConversation} userInfo={userInfo} currentConversation={currentConversation}/>
+            <Conversation conversation={conversation}/>
           </div>}
          />
       </Routes>

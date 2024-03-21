@@ -3,7 +3,7 @@ import "../styles/conversation.css";
 
 const baseUrl = process.env.REACT_APP_API_URL || ""
 
-const Conversation = ({ conversation, currentConversation }) => {
+const Conversation = ({ conversation }) => {
   const endOfMessagesRef = useRef(null);
 
   const scrollToBottom = () => {
@@ -15,11 +15,9 @@ const Conversation = ({ conversation, currentConversation }) => {
     scrollToBottom();
   }, [conversation]);
 
-  // Function to interleave user and bot messages
   const getInterleavedMessages = () => {
-    // Check for empty or undefined conversation arrays
     if (!conversation.user && !conversation.bot) {
-      return []; // Return early for empty conversation
+      return [];
     }
 
     const userMessages = conversation.user || [];

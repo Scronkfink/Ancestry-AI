@@ -20,8 +20,8 @@ const MobileUser = ({ setUserInfo }) => {
     viewportmeta = document.querySelector('meta[name="viewport"]');
   }
   viewportmeta.setAttribute('content', "initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0");
-  // console.log("this is viewport: ", document.querySelector('meta[name="viewport"]'));
   }, []);
+  //play with this dependecy array to allow zoom in for inputs.
 
   const loginClickHandler = () => {
     setLogin(true);

@@ -10,7 +10,7 @@ import "./mobileStyles/mobileApp.css";
 
 const MobileApp = ({ userInfo, setUserInfo, conversations, setSpecificConversation, showSettings, setShowSettings, currentConversation, setCurrentConversation, setConversation, conversation }) => {
   
-  const [showMobileNav, setShowMobileNav] = useState(true);
+  const [showMobileNav, setShowMobileNav] = useState(false);
 
   return (
     <Router>
@@ -30,7 +30,7 @@ const MobileApp = ({ userInfo, setUserInfo, conversations, setSpecificConversati
                 setShowMobileNav={setShowMobileNav}
               />
             )}
-            <MobileConversation setShowMobileNav={setShowMobileNav} showMobileNav={showMobileNav}/>
+            <MobileConversation setShowMobileNav={setShowMobileNav} showMobileNav={showMobileNav} conversation={conversation}/>
           </div>
         } />
       </Routes>

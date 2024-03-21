@@ -101,11 +101,14 @@ const MobileNav = ({ userInfo = [], conversations, setSpecificConversation, setC
     const result = await response.json()
     console.log("IN NAV; this is the specific conversation", result)
     let newConvo = result.conversation
-    setConversation(newConvo);
 
     setTimeout(() => {
       setShowMobileNav(false)
     }, 500)
+
+    setTimeout(() => {
+      setConversation(newConvo);
+    }, 600)
   };
 
   const handleShowConfirmation = (index) => {

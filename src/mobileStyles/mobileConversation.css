@@ -1,8 +1,3 @@
-.mobileConversation{
-  display: flex;
-  border: 1px solid blue;
-  height: calc(var(--vh, 1vh) * 100);
-}
 .mobileConversation > button{
   height: 25px;
   width: 100px;
@@ -12,4 +7,38 @@
 }
 .mobileConversationWithNav {
   width: 10vw;
+}
+
+.mobileConversation {
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  padding: 10px;
+}
+
+.mobileMessagePair{
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  min-width: 200px;
+}
+
+.mobileUserMessage{
+  word-break: break-word;
+  margin: 5px 0;
+  padding: 10px;
+  border-radius: 10px;
+  max-width: 60%;
+  align-self: flex-end;
+  background-color: #d1e7fd;
+}
+
+.mobileBotMessage{
+  word-break: break-word;
+  margin: 5px 0;
+  padding: 10px;
+  border-radius: 10px;
+  max-width: 60%;
+  align-self: flex-start;
+  background-color: #f0f0f0;
 }

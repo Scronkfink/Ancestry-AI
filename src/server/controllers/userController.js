@@ -27,19 +27,20 @@ const isValidPassword = async (password, hashedPassword) => {
 };
 
 userController.signup = async (req, res, next) => {
-  const { username, password } = req.body;
+  const { username, password, email } = req.body;
 
   try {
-    const hashedPassword = await hashPassword(password); // Correctly await the hashed password
-    const newUser = await User.create({ username, password: hashedPassword });
+    const hashedPassword = await hashPassword(password);
+    const newUser = await User.create({ username, password: hashedPassword, email: email});
 
-    const token = jwt.sign({ id: newUser._id }, process.env.JWT_TOKEN, { expiresIn: '24h' }); // Ensure you're using JWT_SECRET
+    const token = jwt.sign({ id: newUser._id }, process.env.JWT_TOKEN, { expiresIn: '24h' });
 
-    res.status(201).send({ token, username: newUser.username });
+    res.locals.newUser = { token, username: newUser.username }
   } catch (err) {
     console.log(err);
     res.status(422).send({ error: err.message, message: "This username is taken" });
   }
+  return next();
 };
 
 userController.login = async (req, res, next) => {
@@ -54,6 +55,7 @@ userController.login = async (req, res, next) => {
 
     const token = jwt.sign({ id: user._id }, process.env.JWT_TOKEN, { expiresIn: '24h' }); // Matched environment variable name
 
+    next()
     res.send({ token, username: user.username });
   } catch (err) {
     res.status(500).send({ message: "An error occurred during the login process." });

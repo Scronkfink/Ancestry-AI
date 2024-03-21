@@ -67,6 +67,7 @@ const User = ({setUserInfo}) => {
   
     let username = document.getElementById("signupUsername").value;
     let password = document.getElementById("signupPassword").value;
+    let email = document.getElementById("signupEmail").value;
   
     try {
       const response = await fetch(`${baseUrl}/api/signup`, {
@@ -77,6 +78,7 @@ const User = ({setUserInfo}) => {
         body: JSON.stringify({
           username: username,
           password: password,
+          email: email
         }),
       });
       const result = await response.json();
@@ -159,7 +161,7 @@ const User = ({setUserInfo}) => {
       </CSSTransition>
     </div>
     <div className="buttons-container">
-      <h1>Take the Ride</h1>
+      <h1>Preserve their legacy.</h1>
       <div className="buttons">
         <button className="login" onClick={loginClickHandler}>
           Login
@@ -174,6 +176,7 @@ const User = ({setUserInfo}) => {
         <div className="login-form">
           <input placeholder="Username" className="username" id="loginUsername" />
           <input placeholder="Password" type="password" className="password" id="loginPassword" />
+          <input placeholder="Email" className="email" id="loginEmail"/>
           <button className="cancel" onClick={cancelLogin}>
             Cancel
           </button>
@@ -186,6 +189,7 @@ const User = ({setUserInfo}) => {
         <div className="signup-form">
           <input placeholder="Username" className="username" id="signupUsername" />
           <input placeholder="Password" type="password" className="password" id="signupPassword" />
+          <input placeholder="Email" className="email" id="signupEmail"/>
           <button className="cancel" onClick={cancelLogin}>
             Cancel
           </button>

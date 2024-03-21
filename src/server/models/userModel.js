@@ -13,6 +13,7 @@ const conversationSchema = new Schema({
 const userSchema = new Schema({
   username: { type: String, required: true, unique: true },
   password: { type: String, required: true },
+  email: {type: String, required: false, unique: true},
   conversations: [conversationSchema] // Use the schema for conversations
 });
 

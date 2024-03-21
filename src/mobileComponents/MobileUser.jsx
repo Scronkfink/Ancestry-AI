@@ -93,7 +93,7 @@ const MobileUser = ({ setUserInfo }) => {
       <div className="mobileLogo">
         <h1>Ancestry AI</h1>
       </div>
-      <h1>Take the Ride</h1>
+      <h1>Preserve their legacy.</h1>
       <div className="mobileButtons">
         <button className="mobileLogin" onClick={loginClickHandler}>
           Login

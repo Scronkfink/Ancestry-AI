@@ -1,6 +1,7 @@
 const express = require('express');
 const path = require('path');
 const userController = require('./controllers/userController');
+const emailController = require("./controllers/emailController");
 require('dotenv').config();
 
 
@@ -28,8 +29,8 @@ app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'dist', 'index.html'));
 });
 
-app.post('/api/signup', userController.signup, (req, res) => {
-  res.status(200).json(res.locals.user);
+app.post('/api/signup', userController.signup, emailController.signup, (req, res) => {
+  res.status(200).send(res.locals.newUser);
 });
 
 app.post('/api/login', userController.login, (req, res) => {

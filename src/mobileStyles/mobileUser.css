@@ -51,7 +51,7 @@
   border: 1px solid #465362;
   font-size: large;
 }
-.mobileFooter{
+.userMobileFooter{
   display: flex;
   position: absolute;
   bottom: 15px;

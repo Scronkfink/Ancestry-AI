@@ -1,9 +1,18 @@
+@import url('https://fonts.googleapis.com/css2?family=Afacad:ital,wght@0,400..700;1,400..700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Pathway+Extreme:ital,opsz,wght@0,8..144,100..900;1,8..144,100..900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Lexend+Deca:wght@100..900&display=swap");
+
 .mobileConversation > button{
   height: 25px;
   width: 100px;
 }
 .mobileConversationFullWidth {
-  width: 100vw;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 10%;
+  overflow-y: auto;
 }
 .mobileConversationWithNav {
   width: 10vw;
@@ -14,6 +23,8 @@
   flex-direction: column;
   overflow-y: auto;
   padding: 10px;
+  margin-top: 50px;
+  height: calc(90%); /* Adjusted height to leave space for footer, assuming footer is around 50px */
 }
 
 .mobileMessagePair{
@@ -41,4 +52,26 @@
   max-width: 60%;
   align-self: flex-start;
   background-color: #f0f0f0;
+}
+.mobileNoMessages{
+  position: absolute;
+  top: 30%;
+  left: 40%;
+  font-family: 'Afacad', sans-serif;
+  display: flex;
+  justify-self: center;
+  color:#420061;
+  font-size: x-large;
+}
+.hamburger{
+  border: none;
+  background: none;
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  height: 35px;
+  cursor: pointer;
+}
+.hamburger > img{
+  height: 35px;
 }

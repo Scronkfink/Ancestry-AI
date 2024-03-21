@@ -215,9 +215,7 @@ const MobileNav = ({ userInfo = [], conversations, setSpecificConversation, setC
         </div>
       )}
       </div>
-      <div className="mobileFooter">
-      <button className="logout" onClick={logoutClickHandler}>Logout</button>
-      </div>
+      <button className="mobileNavLogout" onClick={logoutClickHandler}>Logout</button>
     </div>
   )
 }

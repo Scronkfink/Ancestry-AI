@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import MobileUser from "./mobileComponents/MobileUser";
 import MobileNav from "./mobileComponents/MobileNav";
 import MobileConversation from "./mobileComponents/MobileConversation";
+import MobileFooter from "./mobileComponents/MobileFooter";
 import "./mobileStyles/mobileApp.css";
 
 // Other imports and code remain unchanged
@@ -17,7 +18,7 @@ const MobileApp = ({ userInfo, setUserInfo, conversations, setSpecificConversati
       <Routes>
         <Route path="/" element={<MobileUser setUserInfo={setUserInfo} />} />
         <Route path="/home" element={
-          <div className="mobileAppContainer"> {/* Updated class name */}
+          <div className="mobileAppContainer">
             {showMobileNav && (
               <MobileNav
                 userInfo={userInfo}
@@ -31,6 +32,9 @@ const MobileApp = ({ userInfo, setUserInfo, conversations, setSpecificConversati
               />
             )}
             <MobileConversation setShowMobileNav={setShowMobileNav} showMobileNav={showMobileNav} conversation={conversation}/>
+            {!showMobileNav && (
+              <MobileFooter conversation={conversation} setConversation={setConversation} userInfo={userInfo} conversations={conversations} currentConversation={currentConversation}/>
+            )}
           </div>
         } />
       </Routes>

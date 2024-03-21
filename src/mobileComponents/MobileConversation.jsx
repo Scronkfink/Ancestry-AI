@@ -1,5 +1,6 @@
 import React, { useEffect, useRef } from "react";
 import "../mobileStyles/mobileConversation.css";
+import hamburger from "../imgs/hamburger.png";
 
 const baseUrl = process.env.REACT_APP_API_URL || ""
 
@@ -18,19 +19,13 @@ const MobileConversation = ({showMobileNav, setShowMobileNav, conversation}) => 
   // console.log("this is viewport: ", document.querySelector('meta[name="viewport"]'));
   }, []);
 
-  const showNavClickHandler = () => {
+  const handleConversationClick = () => {
     if (showMobileNav) {
       setShowMobileNav(false);
     }
   };
 
-  const showNavButtonClickHandler = () => {
-    setShowMobileNav(true);
-    return
-  };
-
   const conversationClass = showMobileNav ? "mobileConversationWithNav" : "mobileConversationFullWidth";
-
 
   const endOfMessagesRef = useRef(null);
 
@@ -39,7 +34,6 @@ const MobileConversation = ({showMobileNav, setShowMobileNav, conversation}) => 
   };
 
   useEffect(() => {
-    console.log("scroll to bottom useEffect triggered")
     scrollToBottom();
   }, [conversation]);
 
@@ -68,23 +62,26 @@ const MobileConversation = ({showMobileNav, setShowMobileNav, conversation}) => 
   const interleavedMessages = getInterleavedMessages();
 
   return (
-    <div className={conversationClass} onClick={showNavClickHandler}>
-  <button onClick={showNavButtonClickHandler}>show nav</button>
-  {/* This inner div now uses the specific "mobileConversation" class for styling, not for width control */}
-  <div className="mobileConversation">
-    {interleavedMessages.length > 0 ? (
-      interleavedMessages.map((message, index) => (
-        <div key={index} className="mobileMessagePair">
-          {message.user && <div className="mobileUserMessage">{message.user}</div>}
-          {message.bot && <div className="mobileBotMessage">{message.bot}</div>}
-        </div>
-      ))
-    ) : (
-      <div className="noMessages">No messages</div>
-    )}
-    <div ref={endOfMessagesRef} />
-  </div>
-</div>
+    <div className={conversationClass} onClick={handleConversationClick}>
+      {!showMobileNav && (
+        <button className="hamburger" onClick={() => setShowMobileNav(true)}>
+          <img src={hamburger}></img>
+        </button>
+      )}
+      <div className="mobileConversation">
+        {interleavedMessages.length > 0 ? (
+          interleavedMessages.map((message, index) => (
+            <div key={index} className="mobileMessagePair">
+              {message.user && <div className="mobileUserMessage">{message.user}</div>}
+              {message.bot && <div className="mobileBotMessage">{message.bot}</div>}
+            </div>
+          ))
+        ) : !showMobileNav && (
+          <div className="mobileNoMessages">Ancestry AI</div>
+        )}
+        <div ref={endOfMessagesRef} />
+      </div>
+    </div>
   );
 };
 

@@ -36,3 +36,9 @@
   height: 30px;
   width: 30px;
 }
+
+.mobileNavLogout{
+  position: absolute;
+  bottom: 10px;
+  left: 10px;
+}

@@ -1,13 +1,7 @@
-*{
-  overflow-x: hidden;
-  overflow-y: hidden;
-  max-height: 100vh;
-}
-
 .mobileConversation{
   display: flex;
   border: 1px solid blue;
-  height: 100vh;
+  height: calc(var(--vh, 1vh) * 100);
 }
 .mobileConversation > button{
   height: 25px;

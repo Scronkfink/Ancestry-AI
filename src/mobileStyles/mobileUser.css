@@ -12,13 +12,12 @@
   font-family: 'Afacad', sans-serif;
   display: flex;
   flex-direction: column;
-  height: calc(var(--vh, 1vh) * 100);
+  height: 100vh;
   width: 100vw;
   align-items: center;
   justify-content: center;
   position: relative;
   background-color: #FFD9CE;
-  overflow-y: hidden;
 }
 .mobileUser > h1{
   color: #031D44;

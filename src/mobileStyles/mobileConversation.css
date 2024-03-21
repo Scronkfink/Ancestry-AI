@@ -7,7 +7,7 @@
 .mobileConversation{
   display: flex;
   border: 1px solid blue;
-  height: calc(var(--vh, 1vh) * 100);
+  height: 100vh;
 }
 .mobileConversation > button{
   height: 25px;

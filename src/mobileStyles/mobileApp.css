@@ -2,8 +2,10 @@
 @import url("https://fonts.googleapis.com/css2?family=Pathway+Extreme:ital,opsz,wght@0,8..144,100..900;1,8..144,100..900&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Lexend+Deca:wght@100..900&display=swap");
 
-.mobileApp{
+.mobileAppContainer {
   display: flex;
-  height: 100vh;
+  flex-direction: row;
   width: 100vw;
+  height: 100vh;
+  overflow-x: hidden;
 }

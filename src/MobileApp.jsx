@@ -6,18 +6,18 @@ import MobileNav from "./mobileComponents/MobileNav";
 import MobileConversation from "./mobileComponents/MobileConversation";
 import "./mobileStyles/mobileApp.css";
 
-const MobileApp = ({ userInfo, setUserInfo, conversations, setSpecificConversation, showSettings, setShowSettings, currentConversation, setCurrentConversation, setConversation, conversation }) => {
-  const [showMobileNav, setShowMobileNav] = useState(true);
+// Other imports and code remain unchanged
 
-  // Adjust the mobileApp container to control the layout of nav and conversation
-  const mobileAppClass = showMobileNav ? "mobileAppWithNav" : "mobileAppFullWidth";
+const MobileApp = ({ userInfo, setUserInfo, conversations, setSpecificConversation, showSettings, setShowSettings, currentConversation, setCurrentConversation, setConversation, conversation }) => {
+  
+  const [showMobileNav, setShowMobileNav] = useState(true);
 
   return (
     <Router>
       <Routes>
         <Route path="/" element={<MobileUser setUserInfo={setUserInfo} />} />
         <Route path="/home" element={
-          <div className={mobileAppClass}>
+          <div className="mobileAppContainer"> {/* Updated class name */}
             {showMobileNav && (
               <MobileNav
                 userInfo={userInfo}

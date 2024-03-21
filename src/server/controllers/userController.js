@@ -44,19 +44,19 @@ userController.signup = async (req, res, next) => {
 };
 
 userController.login = async (req, res, next) => {
+  
   const { username, password } = req.body;
 
   try {
     const user = await User.findOne({ username });
 
-    if (!user || !(await isValidPassword(password, user.password))) { // Ensure you await isValidPassword
+    if (!user || !(await isValidPassword(password, user.password))) {
       return res.status(422).json({ message: "That's an invalid username or password." });
     }
 
-    const token = jwt.sign({ id: user._id }, process.env.JWT_TOKEN, { expiresIn: '24h' }); // Matched environment variable name
+    const token = jwt.sign({ id: user._id }, process.env.JWT_TOKEN, { expiresIn: '24h' }); 
 
-    next()
-    res.send({ token, username: user.username });
+    res.status(200).send({ token, username: user.username });
   } catch (err) {
     res.status(500).send({ message: "An error occurred during the login process." });
   }

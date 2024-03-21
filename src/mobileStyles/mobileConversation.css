@@ -1,0 +1,15 @@
+.mobileConversation{
+  display: flex;
+  border: 1px solid blue;
+  height: 100vh;
+}
+.mobileConversation > button{
+  height: 25px;
+  width: 100px;
+}
+.mobileConversationFullWidth {
+  width: 100vw; /* Takes the full viewport width when nav is not displayed */
+}
+.mobileConversationWithNav {
+  width: 10vw; /* Adjusts to take the remaining space when nav is displayed */
+}

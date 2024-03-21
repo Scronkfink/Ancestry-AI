@@ -8,6 +8,7 @@ const MobileUser = ({ setUserInfo }) => {
   const navigate = useNavigate();
   const [login, setLogin] = useState(false);
   const [signup, setSignup] = useState(false);
+  const [isDisabled, setIsDisabled] = useState(false);
 
   const loginClickHandler = () => {
     setLogin(true);
@@ -27,6 +28,9 @@ const MobileUser = ({ setUserInfo }) => {
   const userLogin = async (e) => {
     e.preventDefault();
   
+    setIsDisabled(true);
+    setTimeout(() => setIsDisabled(false), 3000);
+    
     let username = document.getElementById("loginUsername").value;
     let password = document.getElementById("loginPassword").value;
   
@@ -42,7 +46,7 @@ const MobileUser = ({ setUserInfo }) => {
         }),
       });
       const result = await response.json();
-      // console.log("login result: ", result);
+      console.log("mobileLogin result: ", result);
       if (result.token) {
         localStorage.setItem("token", result.token);
         setUserInfo([ result.username, result.token ]);
@@ -60,9 +64,13 @@ const MobileUser = ({ setUserInfo }) => {
   const userSignup = async (e) => {
     e.preventDefault();
   
+    setIsDisabled(true);
+    setTimeout(() => setIsDisabled(false), 3000);
+
     let username = document.getElementById("signupUsername").value;
     let password = document.getElementById("signupPassword").value;
-  
+    let email = document.getElementById("signupEmail").value;
+
     try {
       const response = await fetch(`${baseUrl}/api/signup`, {
         method: "POST",
@@ -72,10 +80,11 @@ const MobileUser = ({ setUserInfo }) => {
         body: JSON.stringify({
           username: username,
           password: password,
+          email: email
         }),
       });
       const result = await response.json();
-      // console.log("signup result: ", result);
+      console.log("mobileSignup result: ", result);
       if (result.token) {
         localStorage.setItem("token", result.token);
         setUserInfo([result.username, result.token]);
@@ -110,7 +119,7 @@ const MobileUser = ({ setUserInfo }) => {
           <button className="cancel" onClick={cancelLogin}>
             Cancel
           </button>
-          <button className="signup-confirm" onClick={userLogin}>
+          <button className="signup-confirm" onClick={userLogin} disabled={isDisabled}>
             Sign-in
           </button>
         </div>
@@ -119,10 +128,11 @@ const MobileUser = ({ setUserInfo }) => {
         <div className="signup-form">
           <input placeholder="Username" className="username" id="signupUsername" />
           <input placeholder="Password" type="password" className="password" id="signupPassword" />
+          <input placeholder="Email" className="email" id="signupEmail"/>
           <button className="cancel" onClick={cancelLogin}>
             Cancel
           </button>
-          <button className="signup-confirm" onClick={userSignup}>
+          <button className="signup-confirm" onClick={userSignup} disabled={isDisabled}>
             Sign Up
           </button>
         </div>

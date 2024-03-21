@@ -13,6 +13,7 @@ const User = ({setUserInfo}) => {
   const navigate = useNavigate();
   const [login, setLogin] = useState(false);
   const [signup, setSignup] = useState(false);
+  const [isDisabled, setIsDisabled] = useState(false);
 
   const loginClickHandler = () => {
     setLogin(true);
@@ -32,6 +33,9 @@ const User = ({setUserInfo}) => {
   const userLogin = async (e) => {
     e.preventDefault();
   
+    setIsDisabled(true);
+    setTimeout(() => setIsDisabled(false), 3000);
+
     let username = document.getElementById("loginUsername").value;
     let password = document.getElementById("loginPassword").value;
   
@@ -65,6 +69,9 @@ const User = ({setUserInfo}) => {
   const userSignup = async (e) => {
     e.preventDefault();
   
+    setIsDisabled(true);
+    setTimeout(() => setIsDisabled(false), 3000);
+
     let username = document.getElementById("signupUsername").value;
     let password = document.getElementById("signupPassword").value;
     let email = document.getElementById("signupEmail").value;
@@ -176,11 +183,10 @@ const User = ({setUserInfo}) => {
         <div className="login-form">
           <input placeholder="Username" className="username" id="loginUsername" />
           <input placeholder="Password" type="password" className="password" id="loginPassword" />
-          <input placeholder="Email" className="email" id="loginEmail"/>
           <button className="cancel" onClick={cancelLogin}>
             Cancel
           </button>
-          <button className="signup-confirm" onClick={userLogin}>
+          <button className="signup-confirm" onClick={userLogin} disabled={isDisabled}>
             Sign-in
           </button>
         </div>
@@ -193,7 +199,7 @@ const User = ({setUserInfo}) => {
           <button className="cancel" onClick={cancelLogin}>
             Cancel
           </button>
-          <button className="signup-confirm" onClick={userSignup}>
+          <button className="signup-confirm" onClick={userSignup} disabled={isDisabled}>
             Sign Up
           </button>
         </div>

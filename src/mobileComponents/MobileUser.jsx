@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "../mobileStyles/mobileUser.css"
 import { useNavigate } from 'react-router-dom';
 
@@ -9,6 +9,19 @@ const MobileUser = ({ setUserInfo }) => {
   const [login, setLogin] = useState(false);
   const [signup, setSignup] = useState(false);
   const [isDisabled, setIsDisabled] = useState(false);
+
+  useEffect(() => {
+    let viewportmeta = document.querySelector('meta[name="viewport"]');
+    if(viewportmeta===null){
+    viewportmeta = document.createElement("meta");
+    viewportmeta.setAttribute("name","viewport");
+    document.head.appendChild(viewportmeta);
+  
+    viewportmeta = document.querySelector('meta[name="viewport"]');
+  }
+  viewportmeta.setAttribute('content', "initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0");
+  // console.log("this is viewport: ", document.querySelector('meta[name="viewport"]'));
+  }, []);
 
   const loginClickHandler = () => {
     setLogin(true);

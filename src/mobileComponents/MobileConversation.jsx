@@ -3,13 +3,17 @@ import "../mobileStyles/mobileConversation.css";
 
 const MobileConversation = ({showMobileNav, setShowMobileNav}) => {
 
-  const resetZoom = () => {
-    document.activeElement.blur();
-    window.scrollTo(0, 0);
-  };
-
   useEffect(() => {
-    resetZoom();
+    let viewportmeta = document.querySelector('meta[name="viewport"]');
+    if(viewportmeta===null){
+    viewportmeta = document.createElement("meta");
+    viewportmeta.setAttribute("name","viewport");
+    document.head.appendChild(viewportmeta);
+  
+    viewportmeta = document.querySelector('meta[name="viewport"]');
+  }
+  viewportmeta.setAttribute('content', "initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0");
+  // console.log("this is viewport: ", document.querySelector('meta[name="viewport"]'));
   }, []);
 
   const showNavClickHandler = () => {

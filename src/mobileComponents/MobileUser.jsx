@@ -29,6 +29,13 @@ const MobileUser = ({ setUserInfo }) => {
     e.preventDefault();
   
     setIsDisabled(true);
+
+    function resetZoom() {
+      document.activeElement.blur();
+      window.scrollTo(0,0);
+    }
+
+    resetZoom()
     setTimeout(() => setIsDisabled(false), 3000);
     
     let username = document.getElementById("loginUsername").value;
@@ -65,6 +72,13 @@ const MobileUser = ({ setUserInfo }) => {
     e.preventDefault();
   
     setIsDisabled(true);
+
+    function resetZoom() {
+      document.activeElement.blur();
+      window.scrollTo(0,0);
+    }
+    resetZoom();
+
     setTimeout(() => setIsDisabled(false), 3000);
 
     let username = document.getElementById("signupUsername").value;

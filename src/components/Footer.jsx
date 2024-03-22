@@ -9,7 +9,7 @@ const Footer = ({ conversation, setConversation, userInfo, conversations, curren
 
   const conversationUpdate = async (e) => {
 
-    console.log("This is the current conversation: ", currentConversation)
+    // console.log("This is the current conversation: ", currentConversation)
 
     if(currentConversation.length === 0){
       alert("Please select a conversation")
@@ -29,8 +29,8 @@ const Footer = ({ conversation, setConversation, userInfo, conversations, curren
       bot: [...conversation.bot, latestBotMessage]
     });
 
-    console.log("IN FOOTER; This is the username: ", userInfo[0]);
-    console.log("IN FOOTER; This is the currentConversation: ", currentConversation);
+    // console.log("IN FOOTER; This is the username: ", userInfo[0]);
+    // console.log("IN FOOTER; This is the currentConversation: ", currentConversation);
 
     const username = userInfo[0];
     const response = await fetch(`${baseUrl}/api/updateConvos`, {
@@ -48,7 +48,7 @@ const Footer = ({ conversation, setConversation, userInfo, conversations, curren
       })
     });
     const result = await response.json();
-    console.log("This is response from updateConvos: ", result);
+    // console.log("This is response from updateConvos: ", result);
   };
 
   return (

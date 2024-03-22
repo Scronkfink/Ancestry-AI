@@ -61,6 +61,7 @@ const MobileConversation = ({showMobileNav, setShowMobileNav, conversation}) => 
 
   const interleavedMessages = getInterleavedMessages();
 
+
   return (
     <div className={conversationClass} onClick={handleConversationClick}>
       {!showMobileNav && (
@@ -83,6 +84,6 @@ const MobileConversation = ({showMobileNav, setShowMobileNav, conversation}) => 
       </div>
     </div>
   );
-};
+  }
 
 export default MobileConversation;

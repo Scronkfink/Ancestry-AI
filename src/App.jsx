@@ -33,7 +33,7 @@ const App = () => {
 
   if (isMobile) {
     return(
-    <MobileApp setUserInfo={setUserInfo} userInfo={userInfo} conversations={specificConversation} setSpecificConversation={setSpecificConversation} showSettings={showSettings} setShowSettings={setShowSettings} currentConversation={currentConversation} setCurrentConversation={setCurrentConversation} setConversation={setConversation}conversation={conversation}/>
+    <MobileApp setUserInfo={setUserInfo} userInfo={userInfo} conversations={specificConversation} setSpecificConversation={setSpecificConversation} currentConversation={currentConversation} setCurrentConversation={setCurrentConversation} setConversation={setConversation}conversation={conversation}/>
   )
   }
 

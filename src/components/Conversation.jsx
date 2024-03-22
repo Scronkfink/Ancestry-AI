@@ -11,7 +11,7 @@ const Conversation = ({ conversation }) => {
   };
 
   useEffect(() => {
-    console.log("scroll to bottom useEffect triggered")
+    // console.log("scroll to bottom useEffect triggered")
     scrollToBottom();
   }, [conversation]);
 

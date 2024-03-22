@@ -10,7 +10,7 @@ const baseUrl = process.env.REACT_APP_API_URL || ""
 
 const Nav = ({ userInfo = [], conversations, setSpecificConversation, setCurrentConversation, setConversation, setShowSettings, showSettings }) => {
 
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const [showConfirmation, setShowConfirmation] = useState(false);
   const [indexToDelete, setIndexToDelete] = useState(null);
   const [showNewConvoPrompt, setShowNewConvoPrompt] = useState(false);
@@ -24,7 +24,7 @@ const Nav = ({ userInfo = [], conversations, setSpecificConversation, setCurrent
         return
       }
       const username = userInfo[0];
-      console.log("This is username for getConvos: ", username)
+      // console.log("This is username for getConvos: ", username)
       try {
         const response = await fetch(`${baseUrl}/api/getConvos`, {
           method: "POST",
@@ -36,7 +36,7 @@ const Nav = ({ userInfo = [], conversations, setSpecificConversation, setCurrent
           }),
         });
         const result = await response.json();
-        console.log("IN NAV; this is result from getUserConversations", result);
+        // console.log("IN NAV; this is result from getUserConversations", result);
         setSpecificConversation(result);
       } catch (error) {
         console.error("Error fetching conversations:", error);
@@ -87,7 +87,7 @@ const Nav = ({ userInfo = [], conversations, setSpecificConversation, setCurrent
       isSelected: i === index,
     }));
     setSpecificConversation(updatedConversations);
-    console.log("this is the title: ", conversations[index].title)
+    // console.log("this is the title: ", conversations[index].title)
     setCurrentConversation(conversations[index].title);
 
     const response = await fetch(`${baseUrl}/api/getconversation`, {
@@ -101,7 +101,7 @@ const Nav = ({ userInfo = [], conversations, setSpecificConversation, setCurrent
       })
     })
     const result = await response.json()
-    console.log("IN NAV; this is the specific conversation", result)
+    // console.log("IN NAV; this is the specific conversation", result)
     let newConvo = result.conversation
     setConversation(newConvo);
   };
@@ -137,7 +137,7 @@ const Nav = ({ userInfo = [], conversations, setSpecificConversation, setCurrent
       });
   
       const result = await response.json();
-      console.log("IN NAV; this is response from delete conversation", result);
+      // console.log("IN NAV; this is response from delete conversation", result);
   
       handleHideConfirmation();
     }

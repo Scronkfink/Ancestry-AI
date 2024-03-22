@@ -5,38 +5,65 @@ import MobileUser from "./mobileComponents/MobileUser";
 import MobileNav from "./mobileComponents/MobileNav";
 import MobileConversation from "./mobileComponents/MobileConversation";
 import MobileFooter from "./mobileComponents/MobileFooter";
+import MobileSettings from "./mobileComponents/MobileSettings"; 
 import "./mobileStyles/mobileApp.css";
 
-// Other imports and code remain unchanged
-
-const MobileApp = ({ userInfo, setUserInfo, conversations, setSpecificConversation, showSettings, setShowSettings, currentConversation, setCurrentConversation, setConversation, conversation }) => {
-  
+const MobileApp = ({
+  userInfo,
+  setUserInfo,
+  conversations,
+  setSpecificConversation,
+  currentConversation,
+  setCurrentConversation,
+  setConversation,
+  conversation
+}) => {
   const [showMobileNav, setShowMobileNav] = useState(false);
+  const [showMobileSettings, setShowMobileSettings] = useState(false);
 
   return (
     <Router>
       <Routes>
         <Route path="/" element={<MobileUser setUserInfo={setUserInfo} />} />
-        <Route path="/home" element={
-          <div className="mobileAppContainer">
-            {showMobileNav && (
-              <MobileNav
-                userInfo={userInfo}
-                conversations={conversations}
-                setSpecificConversation={setSpecificConversation}
-                setCurrentConversation={setCurrentConversation}
-                setConversation={setConversation}
-                showSettings={showSettings}
-                setShowSettings={setShowSettings}
-                setShowMobileNav={setShowMobileNav}
-              />
-            )}
-            <MobileConversation setShowMobileNav={setShowMobileNav} showMobileNav={showMobileNav} conversation={conversation}/>
-            {!showMobileNav && (
-              <MobileFooter conversation={conversation} setConversation={setConversation} userInfo={userInfo} conversations={conversations} currentConversation={currentConversation}/>
-            )}
-          </div>
-        } />
+        <Route
+          path="/home"
+          element={
+            <div className="mobileAppContainer">
+              {!showMobileSettings && showMobileNav && (
+                <MobileNav
+                  userInfo={userInfo}
+                  conversations={conversations}
+                  setSpecificConversation={setSpecificConversation}
+                  setCurrentConversation={setCurrentConversation}
+                  setConversation={setConversation}
+                  setShowMobileSettings={setShowMobileSettings}
+                  setShowMobileNav={setShowMobileNav}
+                />
+              )}
+              {!showMobileSettings && (
+                <MobileConversation
+                  setShowMobileNav={setShowMobileNav}
+                  showMobileNav={showMobileNav}
+                  conversation={conversation}
+                />
+              )}
+              {!showMobileSettings && !showMobileNav && (
+                <MobileFooter
+                  conversation={conversation}
+                  setConversation={setConversation}
+                  userInfo={userInfo}
+                  conversations={conversations}
+                  currentConversation={currentConversation}
+                />
+              )}
+              {showMobileSettings && (
+                <MobileSettings
+                  setShowMobileSettings={setShowMobileSettings}
+                />
+              )}
+            </div>
+          }
+        />
       </Routes>
     </Router>
   );

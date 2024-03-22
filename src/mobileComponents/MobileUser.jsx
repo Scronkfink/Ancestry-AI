@@ -66,7 +66,7 @@ const MobileUser = ({ setUserInfo }) => {
         }),
       });
       const result = await response.json();
-      console.log("mobileLogin result: ", result);
+      // console.log("mobileLogin result: ", result);
       if (result.token) {
         localStorage.setItem("token", result.token);
         setUserInfo([ result.username, result.token ]);
@@ -111,7 +111,7 @@ const MobileUser = ({ setUserInfo }) => {
         }),
       });
       const result = await response.json();
-      console.log("mobileSignup result: ", result);
+      // console.log("mobileSignup result: ", result);
       if (result.token) {
         localStorage.setItem("token", result.token);
         setUserInfo([result.username, result.token]);

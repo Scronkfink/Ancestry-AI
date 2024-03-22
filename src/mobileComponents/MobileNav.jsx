@@ -5,11 +5,12 @@ import notepad from "../imgs/notepad.png";
 import deletePic from "../imgs/delete.png";
 import settings from "../imgs/settings.png"
 import { useNavigate } from "react-router-dom";
+import MobileSettings from "./MobileSettings";
 
-const MobileNav = ({ userInfo = [], conversations, setSpecificConversation, setCurrentConversation, setConversation, setShowMobileNav }) => {
+const MobileNav = ({ userInfo = [], conversations, setSpecificConversation, setCurrentConversation, setConversation, setShowMobileNav, setShowMobileSettings, showMobileSettings, setShowMobileConversation, showMobileNav, showMobileConversation}) => {
 
   const baseUrl = process.env.REACT_APP_API_URL || ""
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const [showConfirmation, setShowConfirmation] = useState(false);
   const [indexToDelete, setIndexToDelete] = useState(null);
   const [showNewConvoPrompt, setShowNewConvoPrompt] = useState(false);
@@ -23,7 +24,7 @@ const MobileNav = ({ userInfo = [], conversations, setSpecificConversation, setC
         return
       }
       const username = userInfo[0];
-      console.log("This is userInfo: ", userInfo)
+      // console.log("This is userInfo: ", userInfo)
 
       try {
         const response = await fetch(`${baseUrl}/api/getConvos`, {
@@ -87,7 +88,7 @@ const MobileNav = ({ userInfo = [], conversations, setSpecificConversation, setC
       isSelected: i === index,
     }));
     setSpecificConversation(updatedConversations);
-    console.log("this is the title: ", conversations[index].title)
+    // console.log("this is the title: ", conversations[index].title)
     setCurrentConversation(conversations[index].title);
 
     const response = await fetch(`${baseUrl}/api/getconversation`, {
@@ -101,7 +102,7 @@ const MobileNav = ({ userInfo = [], conversations, setSpecificConversation, setC
       })
     })
     const result = await response.json()
-    console.log("IN NAV; this is the specific conversation", result)
+    // console.log("IN NAV; this is the specific conversation", result)
     let newConvo = result.conversation
 
     setTimeout(() => {
@@ -144,7 +145,7 @@ const MobileNav = ({ userInfo = [], conversations, setSpecificConversation, setC
       });
   
       const result = await response.json();
-      console.log("IN NAV; this is response from delete conversation", result);
+      // console.log("IN NAV; this is response from delete conversation", result);
   
       handleHideConfirmation();
     }
@@ -160,10 +161,15 @@ const MobileNav = ({ userInfo = [], conversations, setSpecificConversation, setC
   );
 
   const logoutClickHandler = () => {
-    setConversation([]);
-    localStorage.clear();
-    navigate("/")
+    // setConversation([]);
+    // localStorage.clear();
+    // navigate("/")
   };
+
+  const showMobileSettingsClickHandler = () => {
+    setShowMobileSettings(true);
+    return
+  }
 
   return(
     <div className="mobileNav">
@@ -216,10 +222,13 @@ const MobileNav = ({ userInfo = [], conversations, setSpecificConversation, setC
           <button onClick={() => setShowNewConvoPrompt(false)}>Cancel</button>
         </div>
       )}
+      {showMobileSettings && (
+        <MobileSettings setShowMobileSettings={setShowMobileSettings} showMobileSettings={showMobileSettings} setShowMobileConversation={setShowMobileConversation}/>
+      )}
       </div>
-      <div className="mobileSettings" onClick={logoutClickHandler}>
-        <img src={settings}></img>
+      <div className="mobileNavSettings" onClick={logoutClickHandler}>
         <p>{userInfo[0]}</p>
+        <img src={settings} onClick={showMobileSettingsClickHandler}></img>
       </div>
     </div>
   )

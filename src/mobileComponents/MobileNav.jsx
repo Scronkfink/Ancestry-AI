@@ -3,6 +3,7 @@ import "../mobileStyles/mobileNav.css"
 import dna from "../imgs/dna.jpg";
 import notepad from "../imgs/notepad.png";
 import deletePic from "../imgs/delete.png";
+import settings from "../imgs/settings.png"
 import { useNavigate } from "react-router-dom";
 
 const MobileNav = ({ userInfo = [], conversations, setSpecificConversation, setCurrentConversation, setConversation, setShowMobileNav }) => {
@@ -22,7 +23,8 @@ const MobileNav = ({ userInfo = [], conversations, setSpecificConversation, setC
         return
       }
       const username = userInfo[0];
-      console.log("This is username for getConvos: ", username)
+      console.log("This is userInfo: ", userInfo)
+
       try {
         const response = await fetch(`${baseUrl}/api/getConvos`, {
           method: "POST",
@@ -34,7 +36,7 @@ const MobileNav = ({ userInfo = [], conversations, setSpecificConversation, setC
           }),
         });
         const result = await response.json();
-        console.log("IN NAV; this is result from getUserConversations", result);
+        // console.log("IN NAV; this is result from getUserConversations", result);
         setSpecificConversation(result);
       } catch (error) {
         console.error("Error fetching conversations:", error);
@@ -206,7 +208,7 @@ const MobileNav = ({ userInfo = [], conversations, setSpecificConversation, setC
         </div>
       )}
       {showNewConvoPrompt && (
-        <div className="newConvoPrompt">
+        <div className="mobileNewConvoPrompt">
           <input type="text" value={newConvoTitle} onChange={(e) => setNewConvoTitle(e.target.value)}
             placeholder="Enter title..."
           />
@@ -215,7 +217,10 @@ const MobileNav = ({ userInfo = [], conversations, setSpecificConversation, setC
         </div>
       )}
       </div>
-      <button className="mobileNavLogout" onClick={logoutClickHandler}>Logout</button>
+      <div className="mobileSettings" onClick={logoutClickHandler}>
+        <img src={settings}></img>
+        <p>{userInfo[0]}</p>
+      </div>
     </div>
   )
 }

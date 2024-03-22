@@ -48,13 +48,15 @@ userController.login = async (req, res, next) => {
   const { username, password } = req.body;
 
   try {
-    const user = await User.findOne({ username });
+    const user = await User.findOne({ username }, { password: 1, username: 1, _id: 1 });
 
     if (!user || !(await isValidPassword(password, user.password))) {
       return res.status(422).json({ message: "That's an invalid username or password." });
     }
 
     const token = jwt.sign({ id: user._id }, process.env.JWT_TOKEN, { expiresIn: '24h' }); 
+
+    console.log(user)
 
     res.status(200).send({ token, username: user.username });
   } catch (err) {
@@ -70,7 +72,7 @@ userController.getConvos = (async(req, res, next) => {
     // Use projection in the query to select only the title field from each conversation
     const response = await User.findOne({ username }, { 'conversations.title': 1, _id: 0 });
 
-    console.log("IN SERVER; this is response from getConvos: ", response);
+    console.log("This is response from getConvos: ", response);
 
     if (response) {
       // Map through the conversations to extract only the titles
@@ -92,20 +94,18 @@ userController.updateConvos = async (req, res, next) => {
   const { username, conversationMessage, currentConversation } = req.body;
 
   try {
-    let user = await User.findOne({ username });
+    // Fetch only the conversation matching the title
+    const user = await User.findOne({ username }, { conversations: { $elemMatch: { title: currentConversation } } });
+
+    console.log("This is the user object returned from updateConvos: ", user);
 
     if (!user) {
       return res.status(404).send({ message: "User not found" });
     }
 
-    const convoIndex = user.conversations.findIndex(convo => convo.title === currentConversation);
-    if (convoIndex !== -1) {
-      // Append the newest messages
-      user.conversations[convoIndex].conversation.user.push(conversationMessage.user);
-      user.conversations[convoIndex].conversation.bot.push(conversationMessage.bot);
-      user.markModified('conversations');
-    } else {
-      // If the conversation doesn't exist, create a new one
+    // Check if the conversation was found
+    if (user.conversations.length === 0) {
+      // If the conversation doesn't exist, add a new one
       const newConvo = {
         title: currentConversation,
         isSelected: false,
@@ -114,14 +114,22 @@ userController.updateConvos = async (req, res, next) => {
           bot: [conversationMessage.bot]
         }
       };
-      user.conversations.push(newConvo);
+      await User.updateOne({ username }, { $push: { conversations: newConvo } });
+    } else {
+      // Append the newest messages to the existing conversation
+      const userPath = `conversations.$.conversation.user`;
+      const botPath = `conversations.$.conversation.bot`;
+      await User.updateOne(
+        { username, "conversations.title": currentConversation },
+        { $push: { [userPath]: conversationMessage.user, [botPath]: conversationMessage.bot } }
+      );
     }
 
-    await user.save();
-
+    // Fetch the updated conversations list to return it in the response
+    const updatedUser = await User.findOne({ username }, { conversations: { $elemMatch: { title: currentConversation } } });
     res.locals.user = {
-      username: user.username,
-      conversations: user.conversations
+      username: updatedUser.username,
+      conversations: updatedUser.conversations
     };
     return next();
   } catch (error) {
@@ -130,6 +138,7 @@ userController.updateConvos = async (req, res, next) => {
     return next();
   }
 };
+
 
 
 userController.deleteConvos = async (req, res, next) => {
@@ -163,20 +172,24 @@ userController.getConversation = async (req, res, next) => {
   const { username, title } = req.body;
 
   try {
+    // Use $elemMatch to find and return only the matching conversation
+    const projection = {
+      conversations: { $elemMatch: { title: title } }
+    };
 
-    const user = await User.findOne({ username: username });
+    const userWithConvo = await User.findOne({ username: username }, projection);
 
-    if (!user) {
+    if (!userWithConvo) {
       return res.status(404).send({ message: "User not found" });
     }
 
+    console.log("This is the object returned from getConversation: ", userWithConvo)
 
-    const conversation = user.conversations.find(convo => convo.title === title);
-
-
-    if (!conversation) {
+    if (!userWithConvo.conversations || userWithConvo.conversations.length === 0) {
       return res.status(404).send({ message: "Conversation not found" });
     }
+
+    const conversation = userWithConvo.conversations[0];
 
     res.locals.conversation = conversation;
     return next();

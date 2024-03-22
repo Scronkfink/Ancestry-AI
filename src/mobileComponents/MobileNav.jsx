@@ -160,12 +160,6 @@ const MobileNav = ({ userInfo = [], conversations, setSpecificConversation, setC
     </div>
   );
 
-  const logoutClickHandler = () => {
-    // setConversation([]);
-    // localStorage.clear();
-    // navigate("/")
-  };
-
   const showMobileSettingsClickHandler = () => {
     setShowMobileSettings(true);
     return
@@ -226,7 +220,7 @@ const MobileNav = ({ userInfo = [], conversations, setSpecificConversation, setC
         <MobileSettings setShowMobileSettings={setShowMobileSettings} showMobileSettings={showMobileSettings} setShowMobileConversation={setShowMobileConversation}/>
       )}
       </div>
-      <div className="mobileNavSettings" onClick={logoutClickHandler}>
+      <div className="mobileNavSettings">
         <p>{userInfo[0]}</p>
         <img src={settings} onClick={showMobileSettingsClickHandler}></img>
       </div>

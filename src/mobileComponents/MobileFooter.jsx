@@ -21,6 +21,18 @@ const MobileFooter = ({ conversation, setConversation, userInfo, conversations, 
     const latestUserMessage = input;
     const latestBotMessage = "roger";
 
+    const gptResponse = await fetch("/api/llm", {
+      method: "POST", 
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: {
+        user: latestUserMessage
+      }
+    });
+
+    const gptResult = await gptResponse.json();
+    console.log("This is gptResult: ", gptResult)
 
     setConversation({
       user: [...conversation.user, latestUserMessage],
@@ -57,4 +69,6 @@ const MobileFooter = ({ conversation, setConversation, userInfo, conversations, 
     )
   }
 };
+
+
 export default MobileFooter

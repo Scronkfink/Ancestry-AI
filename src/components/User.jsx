@@ -59,6 +59,7 @@ const User = ({setUserInfo}) => {
       } 
       else {
         console.error("Login failed: ", result.message);
+        alert("You either don't have an account or have input a wrong username/password")
       }
     } catch (error) {
       console.error("Error:", error);
@@ -96,6 +97,7 @@ const User = ({setUserInfo}) => {
         navigate('/home');
       } else {
         console.error("Signup failed: ", result.message);
+        alert("This username might be taken already")
       }
     } catch (error) {
       console.error("Error:", error);

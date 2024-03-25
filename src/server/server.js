@@ -30,7 +30,7 @@ app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'dist', 'index.html'));
 });
 
-app.post('/api/updateConvos', apiController.text, apiController.voice, (req, res) => {
+app.post('/api/llm', apiController.text, apiController.voice, (req, res)=> {
   res.status(200).send(res.locals.response);
 });
 

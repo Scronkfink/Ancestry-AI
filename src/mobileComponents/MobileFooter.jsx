@@ -7,7 +7,6 @@ const MobileFooter = ({ conversation, setConversation, userInfo, conversations, 
 
   const conversationUpdate = async (e) => {
 
-    // console.log("This is the current conversation: ", currentConversation)
 
     if(currentConversation.length === 0){
       alert("Please select a conversation")
@@ -15,30 +14,30 @@ const MobileFooter = ({ conversation, setConversation, userInfo, conversations, 
     }
 
     e.preventDefault();
-    let input = document.getElementById("mobileInput").value;
-    document.getElementById("mobileInput").value = '';
+    let input = document.getElementById("input").value;
+    document.getElementById("input").value = '';
 
     const latestUserMessage = input;
-    const latestBotMessage = "roger";
 
     const gptResponse = await fetch("/api/llm", {
       method: "POST", 
       headers: {
         "Content-Type": "application/json"
       },
-      body: {
-        user: latestUserMessage
-      }
+      body: JSON.stringify({
+        newMessage: latestUserMessage
+        })
     });
 
-    const gptResult = await gptResponse.json();
-    console.log("This is gptResult: ", gptResult)
+    const gptResult = await gptResponse.json()
+    console.log("This is LLM response: ", gptResult)
+
+    const latestBotMessage = gptResult.answer;
 
     setConversation({
       user: [...conversation.user, latestUserMessage],
       bot: [...conversation.bot, latestBotMessage]
     });
-
     // console.log("IN FOOTER; This is the username: ", userInfo[0]);
     // console.log("IN FOOTER; This is the currentConversation: ", currentConversation);
 

@@ -23,6 +23,17 @@ const Footer = ({ conversation, setConversation, userInfo, conversations, curren
     const latestUserMessage = input;
     const latestBotMessage = "roger";
 
+    const gptResponse = await fetch("/api/llm", {
+      method: "POST", 
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: {
+        input: latestUserMessage
+        }
+    });
+
+    const gptResult = await gptResponse.json()
 
     setConversation({
       user: [...conversation.user, latestUserMessage],

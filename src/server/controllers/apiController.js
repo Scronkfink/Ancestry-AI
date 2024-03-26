@@ -9,14 +9,16 @@ apiController.text = (async (req, res, next) => {
 
   const newMessage = req.body.newMessage
   
-  try{
-const completion = await openai.chat.completions.create({
-  messages: [
-    { role: "system", content: "The King of Camelot is a chatbot designed to be a virtual representation of Roberto Riva, the man who these writings are based off of." },
-    { role: "user", content: `${newMessage}` }
-  ],
-  model: "ft:gpt-3.5-turbo-0125:personal:roberto7:96iKsOEQ",
-});
+  try {
+    const completion = await openai.chat.completions.create({
+      messages: [
+        { role: "system", content: "The King of Camelot is a chatbot designed to be a virtual representation of Roberto Riva, the man who these writings are based off of." },
+        { role: "user", content: `${newMessage}` }
+      ],
+      model: "ft:gpt-3.5-turbo-1106:personal:roberto8:976PzZbh",
+      max_tokens: 60, // Length of response
+      temperature: .7, // Lower for more deterministic responses
+    });
    const answer = completion.choices[0].message.content
 
   res.status(200).json({answer})

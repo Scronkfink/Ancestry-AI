@@ -1,5 +1,4 @@
-import React from "react";
-import { useState } from "react";
+import React, { useState } from "react";
 import "../styles/footer.css";
 
 const baseUrl = process.env.REACT_APP_API_URL || "";
@@ -17,12 +16,17 @@ const Footer = ({
   const [newConvoTitle, setNewConvoTitle] = useState("");
 
   const conversationUpdate = async (e) => {
-    let input = document.getElementById("input").value.trim();
-    const latestUserMessage = input;
-    document.getElementsByClassName("footerInput")[0].value = ""
-
-    console.log("In Footer, this is currentConversation: ", currentConversationTitle)
+    let latestBotMessage = ""
     e.preventDefault();
+    let input = document.getElementById("input").value.trim();
+
+    // console.log("In Footer, this is currentConversation: ", currentConversationTitle);
+
+    // Immediately update conversation with the user's input
+    setConversation({
+      user: [...conversation.user, input],
+      bot: [...conversation.bot]
+    });
 
     if (currentConversationTitle.length === 0) {
       if (newConvoTitle.trim()) {
@@ -44,7 +48,8 @@ const Footer = ({
               isSelected: false,
               conversation: { user: [], bot: [] }
             };
-            setConversationTitles(conversationTitles.concat(newConvo));
+            setConversationTitles([...conversationTitles, newConvo]);
+            setCurrentConversationTitle(newConvoTitle);
           } else {
             console.error("Failed to create new conversation");
           }
@@ -52,35 +57,32 @@ const Footer = ({
           console.error("Error creating new conversation:", error);
         }
       }
-      setCurrentConversationTitle(newConvoTitle);
     }
-
+setNewConvoTitle("");
+document.getElementsByClassName("footerInput")[0].value = "";
+    // Fetch the bot's response
     const gptResponse = await fetch("/api/llm", {
       method: "POST",
       headers: {
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
       },
-      body: JSON.stringify({ newMessage: latestUserMessage })
+      body: JSON.stringify({ newMessage: input })
     });
 
-    const gptResult = await gptResponse.json();
-    const latestBotMessage = gptResult.answer;
+    if (gptResponse.ok) {
+      const gptResult = await gptResponse.json();
+      latestBotMessage = gptResult.answer;
 
-    if (!conversation || conversation.length === 0) {
-      setConversation({
-        user: [],
-        bot: []
-      });
-    } else {
-      setConversation({
-        user: [...conversation.user, latestUserMessage],
-        bot: [...conversation.bot, latestBotMessage]
-      });
+      // Update conversation with bot's message
+      setConversation(current => ({
+        user: [...current.user], // already includes the user's latest message
+        bot: [...current.bot, latestBotMessage]
+      }));
     }
-
+     else {
+      console.error("Failed to fetch bot's response");
+    }
     const username = userInfo[0];
-
-    console.log("this is the newConvoTitle: ", newConvoTitle)
     const response = await fetch(`${baseUrl}/api/updateConvos`, {
       method: "POST",
       headers: {
@@ -88,13 +90,13 @@ const Footer = ({
       },
       body: JSON.stringify({
         currentConversation: currentConversationTitle.length < 1 ? newConvoTitle : currentConversationTitle,
-        conversationMessage: { user: latestUserMessage, bot: latestBotMessage },
+        conversationMessage: { user: input, bot: latestBotMessage },
         username: username
       })
     });
 
     const result = await response.json()
-    console.log("this is response from updateConvos: ", result.conversations[0].conversation)
+    // console.log("this is response from updateConvos: ", result.conversations[0].conversation)
     const updatedConversations = conversationTitles.slice();
 
     if (!updatedConversations.some(conversation => conversation.title === currentConversationTitle)) {
@@ -114,8 +116,7 @@ const Footer = ({
       event.preventDefault(); 
       conversationUpdate(event);
     }
-  };
-
+  }
   return (
     <div className="footer">
       <input 

@@ -17,11 +17,25 @@ const MobileFooter = ({
   const [newConvoTitle, setNewConvoTitle] = useState("");
 
   const conversationUpdate = async (e) => {
+    e.preventDefault();
 
     let input = document.getElementById("mobileInput").value.trim();
     const latestUserMessage = input;
-    document.getElementsByClassName("footerInput")[0].value = ""
-    e.preventDefault();
+    let latestBotMessage = "";
+
+    
+    if (!conversation || conversation.length === 0) {
+      setConversation({
+        user: [input],
+        bot: []
+      });
+    }
+    else{
+      setConversation({
+        user: [...conversation.user, input],
+        bot: [...conversation.bot]
+      });
+    } 
 
     if (currentConversationTitle.length === 0) {
       if (newConvoTitle.trim()) {
@@ -44,6 +58,7 @@ const MobileFooter = ({
               conversation: { user: [], bot: [] }
             };
             setConversationTitles(conversationTitles.concat(newConvo));
+            setCurrentConversationTitle(newConvoTitle);
           } else {
             console.error("Failed to create new conversation");
           }
@@ -53,7 +68,10 @@ const MobileFooter = ({
       }
       setCurrentConversationTitle(newConvoTitle);
     }
+    setNewConvoTitle("");
+    document.getElementsByClassName("footerInput")[0].value = "";
 
+    console.log("good before llm fetch ")
     const gptResponse = await fetch("/api/llm", {
       method: "POST",
       headers: {
@@ -62,8 +80,18 @@ const MobileFooter = ({
       body: JSON.stringify({ newMessage: latestUserMessage })
     });
 
-    const gptResult = await gptResponse.json();
-    const latestBotMessage = gptResult.answer;
+       if (gptResponse.ok) {
+      const gptResult = await gptResponse.json();
+      latestBotMessage = gptResult.answer;
+      // Update conversation with bot's message
+      setConversation(current => ({
+        user: [...current.user], // already includes the user's latest message
+        bot: [...current.bot, latestBotMessage]
+      }));
+    }
+     else {
+      console.error("Failed to fetch bot's response");
+    }
 
     if (!conversation || conversation.length === 0) {
       setConversation({

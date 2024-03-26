@@ -156,6 +156,17 @@ const User = ({setUserInfo}) => {
     }, 3000);
   }, []);
 
+  const handleKeyDown = (event) => {
+    if (event.key === 'Enter') {
+      if (login) {
+        document.querySelector('.login-form .signup-confirm').click();
+      }
+      else if (signup) {
+        document.querySelector('.signup-form .signup-confirm').click();
+      }
+    }
+  };
+
 
 
   return (
@@ -182,19 +193,19 @@ const User = ({setUserInfo}) => {
       <div className="userFooter">Echoes of their wisdom, forever.</div>
       </div>
       {login && (
-        <div className="login-form">
+        <div className="login-form" onKeyDown={handleKeyDown}>
           <input placeholder="Username" className="username" id="loginUsername" />
           <input placeholder="Password" type="password" className="password" id="loginPassword" />
           <button className="cancel" onClick={cancelLogin}>
             Cancel
           </button>
           <button className="signup-confirm" onClick={userLogin} disabled={isDisabled}>
-            Sign-in
+            Login
           </button>
         </div>
       )}
       {signup && (
-        <div className="signup-form">
+        <div className="signup-form" onKeyDown={handleKeyDown}>
           <input placeholder="Username" className="username" id="signupUsername" />
           <input placeholder="Password" type="password" className="password" id="signupPassword" />
           <input placeholder="Email" className="email" id="signupEmail"/>

@@ -8,12 +8,12 @@ import MobileApp from "./MobileApp";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
 const App = () => {
+
   const [conversation, setConversation] = useState([]);
-  const [specificConversation, setSpecificConversation] = useState([]);
+  const [conversationTitles, setConversationTitles] = useState([]);
   const [currentConversation, setCurrentConversation] = useState([]);
   const [showSettings, setShowSettings] = useState(false);
   const [isMobile, setIsMobile] = useState(window.innerWidth < 640);
-
   const [userInfo, setUserInfo] = useState(() => {
     const savedUserInfo = localStorage.getItem('userInfo');
     return savedUserInfo ? JSON.parse(savedUserInfo) : [];
@@ -31,27 +31,55 @@ const App = () => {
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
+  // Conditional rendering for mobile and desktop
   if (isMobile) {
-    return(
-    <MobileApp setUserInfo={setUserInfo} userInfo={userInfo} conversations={specificConversation} setSpecificConversation={setSpecificConversation} currentConversation={currentConversation} setCurrentConversation={setCurrentConversation} setConversation={setConversation}conversation={conversation}/>
-  )
+    return (
+      <MobileApp 
+        setUserInfo={setUserInfo} 
+        userInfo={userInfo} 
+        conversations={conversationTitles} 
+        setSpecificConversation={setConversationTitles} 
+        currentConversation={currentConversation} 
+        setCurrentConversation={setCurrentConversation} 
+        setConversation={setConversation}
+        conversation={conversation}
+      />
+    );
   }
 
+  // JSX for desktop
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<User setUserInfo={setUserInfo}/>}/>
+        <Route path="/" element={<User setUserInfo={setUserInfo} />} />
         <Route path="/home" element={ 
           <div className="app">
-            <Nav userInfo={userInfo} conversations={specificConversation} setSpecificConversation={setSpecificConversation} setCurrentConversation={setCurrentConversation} setConversation={setConversation} showSettings={showSettings} setShowSettings={setShowSettings}/>
-            <Footer conversation={conversation} setConversation={setConversation} userInfo={userInfo} conversations={specificConversation} currentConversation={currentConversation}/>
-            <Conversation conversation={conversation}/>
-          </div>}
-         />
+            <Nav 
+              userInfo={userInfo} 
+              conversationTitles={conversationTitles} 
+              setConversationTitles={setConversationTitles} 
+              setCurrentConversation={setCurrentConversation} 
+              setConversation={setConversation} 
+              showSettings={showSettings} 
+              setShowSettings={setShowSettings}
+            />
+            <Footer 
+              conversation={conversation} 
+              setConversation={setConversation} 
+              userInfo={userInfo} 
+              conversations={conversationTitles} 
+              currentConversation={currentConversation} 
+              setCurrentConversation={setCurrentConversation} 
+              setSpecificConversation={setConversationTitles}
+            />
+            <Conversation conversation={conversation} />
+          </div>
+        }/>
       </Routes>
     </Router>
   );
 };
 
 export default App;
+
 

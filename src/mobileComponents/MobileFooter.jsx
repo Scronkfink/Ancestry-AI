@@ -6,16 +6,14 @@ const baseUrl = process.env.REACT_APP_API_URL || ""
 const MobileFooter = ({ conversation, setConversation, userInfo, conversations, currentConversation, showMobileNav }) => {
 
   const conversationUpdate = async (e) => {
-
-
     if(currentConversation.length === 0){
       alert("Please select a conversation")
       return
     }
 
     e.preventDefault();
-    let input = document.getElementById("input").value;
-    document.getElementById("input").value = '';
+    let input = document.getElementById("mobileInput").value;
+    document.getElementById("mobileInput").value = '';
 
     const latestUserMessage = input;
 
@@ -34,12 +32,13 @@ const MobileFooter = ({ conversation, setConversation, userInfo, conversations, 
 
     const latestBotMessage = gptResult.answer;
 
+    console.log("In mobile footer, this is conversation after LLM response: ", conversation)
     setConversation({
       user: [...conversation.user, latestUserMessage],
       bot: [...conversation.bot, latestBotMessage]
     });
     // console.log("IN FOOTER; This is the username: ", userInfo[0]);
-    // console.log("IN FOOTER; This is the currentConversation: ", currentConversation);
+    console.log("IN FOOTER; This is the currentConversation: ", currentConversation);
 
     const username = userInfo[0];
     const response = await fetch(`${baseUrl}/api/updateConvos`, {

@@ -54,6 +54,7 @@ const MobileApp = ({
                   userInfo={userInfo}
                   conversations={conversations}
                   currentConversation={currentConversation}
+                  setCurrentConversation={setCurrentConversation}
                 />
               )}
               {showMobileSettings && (

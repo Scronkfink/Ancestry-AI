@@ -11,10 +11,10 @@ import "./mobileStyles/mobileApp.css";
 const MobileApp = ({
   userInfo,
   setUserInfo,
-  conversations,
-  setSpecificConversation,
-  currentConversation,
-  setCurrentConversation,
+  conversationTitles,
+  setConversationTitles,
+  currentConversationTitle,
+  setCurrentConversationTitle,
   setConversation,
   conversation
 }) => {
@@ -32,9 +32,9 @@ const MobileApp = ({
               {!showMobileSettings && showMobileNav && (
                 <MobileNav
                   userInfo={userInfo}
-                  conversations={conversations}
-                  setSpecificConversation={setSpecificConversation}
-                  setCurrentConversation={setCurrentConversation}
+                  conversationTitles={conversationTitles}
+                  setConversationTitles={setConversationTitles}
+                  setCurrentConversation={setCurrentConversationTitle}
                   setConversation={setConversation}
                   setShowMobileSettings={setShowMobileSettings}
                   setShowMobileNav={setShowMobileNav}
@@ -51,10 +51,11 @@ const MobileApp = ({
                 <MobileFooter
                   conversation={conversation}
                   setConversation={setConversation}
+                  setConversationTitles={setConversationTitles}
+                  conversationTitles={conversationTitles}
                   userInfo={userInfo}
-                  conversations={conversations}
-                  currentConversation={currentConversation}
-                  setCurrentConversation={setCurrentConversation}
+                  currentConversationTitle={currentConversationTitle}
+                  setCurrentConversationTitle={setCurrentConversationTitle}
                 />
               )}
               {showMobileSettings && (

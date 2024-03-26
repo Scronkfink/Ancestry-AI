@@ -7,7 +7,7 @@ import settings from "../imgs/settings.png"
 import { useNavigate } from "react-router-dom";
 import MobileSettings from "./MobileSettings";
 
-const MobileNav = ({ userInfo = [], conversations, setSpecificConversation, setCurrentConversation, setConversation, setShowMobileNav, setShowMobileSettings, showMobileSettings, setShowMobileConversation, showMobileNav, showMobileConversation}) => {
+const MobileNav = ({ userInfo = [], conversationTitles, setConversationTitles, setCurrentConversation, setConversation, setShowMobileNav, setShowMobileSettings, showMobileSettings, setShowMobileConversation}) => {
 
   const baseUrl = process.env.REACT_APP_API_URL || ""
   const navigate = useNavigate();
@@ -20,7 +20,7 @@ const MobileNav = ({ userInfo = [], conversations, setSpecificConversation, setC
 
     const getUserConversations = async () => {
       if(userInfo.length === 0){
-        setSpecificConversation([]);
+        setConversationTitles([]);
         return
       }
       const username = userInfo[0];
@@ -38,7 +38,7 @@ const MobileNav = ({ userInfo = [], conversations, setSpecificConversation, setC
         });
         const result = await response.json();
         // console.log("IN NAV; this is result from getUserConversations", result);
-        setSpecificConversation(result);
+        setConversationTitles(result);
       } catch (error) {
         console.error("Error fetching conversations:", error);
       }
@@ -70,7 +70,7 @@ const MobileNav = ({ userInfo = [], conversations, setSpecificConversation, setC
             isSelected: false,
             conversation: { user: [], bot: [] }
           };
-          setSpecificConversation(conversations.concat(newConvo));
+          setConversationTitles(conversationTitles.concat(newConvo));
         } else {
           console.error("Failed to create new conversation");
         }
@@ -83,13 +83,13 @@ const MobileNav = ({ userInfo = [], conversations, setSpecificConversation, setC
   };
 
   const handleConvoClick = async(index) => {
-    const updatedConversations = conversations.map((convo, i) => ({
+    const updatedConversations = conversationTitles.map((convo, i) => ({
       ...convo,
       isSelected: i === index,
     }));
-    setSpecificConversation(updatedConversations);
+    setConversationTitles(updatedConversations);
     // console.log("this is the title: ", conversations[index].title)
-    setCurrentConversation(conversations[index].title);
+    setCurrentConversation(conversationTitles[index].title);
 
     const response = await fetch(`${baseUrl}/api/getconversation`, {
       method: "POST",
@@ -97,7 +97,7 @@ const MobileNav = ({ userInfo = [], conversations, setSpecificConversation, setC
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        title: conversations[index].title,
+        title: conversationTitles[index].title,
         username: userInfo[0]
       })
     })
@@ -127,11 +127,11 @@ const MobileNav = ({ userInfo = [], conversations, setSpecificConversation, setC
   const handleConfirmDelete = async() => {
     if (indexToDelete !== null) {
 
-      const titleToDelete = conversations[indexToDelete].title;
-      const updatedConversations = conversations.filter(
+      const titleToDelete = conversationTitles[indexToDelete].title;
+      const updatedConversations = conversationTitles.filter(
             (_, index) => index !== indexToDelete
         );
-      setSpecificConversation(updatedConversations);
+        setConversationTitles(updatedConversations);
       
       const response = await fetch(`${baseUrl}/api/deleteConvos`, {
         method: "POST",
@@ -177,8 +177,8 @@ const MobileNav = ({ userInfo = [], conversations, setSpecificConversation, setC
       <div className="mobileConversations">
       <p className="convoHeader">Past Conversations:</p>
       <div className="conversations">
-        {conversations.length > 0 &&
-          conversations.map((convo, index) => (
+        {conversationTitles.length > 0 &&
+          conversationTitles.map((convo, index) => (
             <div className="convo" key={index} onClick={() => handleConvoClick(index)}
               style={{
                 backgroundColor: convo.isSelected ? "grey" : "transparent",

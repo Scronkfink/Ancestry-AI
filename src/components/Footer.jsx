@@ -9,8 +9,8 @@ const Footer = ({
   setConversation, 
   userInfo, 
   conversationTitles, 
-  currentConversation, 
-  setCurrentConversation, 
+  currentConversationTitle, 
+  setCurrentConversationTitle, 
   setConversationTitles 
 }) => {
 
@@ -21,9 +21,10 @@ const Footer = ({
     const latestUserMessage = input;
     document.getElementsByClassName("footerInput")[0].value = ""
 
+    console.log("In Footer, this is currentConversation: ", currentConversationTitle)
     e.preventDefault();
 
-    if (currentConversation.length === 0) {
+    if (currentConversationTitle.length === 0) {
       if (newConvoTitle.trim()) {
         try {
           const response = await fetch(`${baseUrl}/api/createNewConvo`, {
@@ -51,7 +52,7 @@ const Footer = ({
           console.error("Error creating new conversation:", error);
         }
       }
-      setCurrentConversation(newConvoTitle);
+      setCurrentConversationTitle(newConvoTitle);
     }
 
     const gptResponse = await fetch("/api/llm", {
@@ -86,7 +87,7 @@ const Footer = ({
         "Content-Type": "application/json"
       },
       body: JSON.stringify({
-        currentConversation: currentConversation.length < 1 ? newConvoTitle : currentConversation,
+        currentConversation: currentConversationTitle.length < 1 ? newConvoTitle : currentConversationTitle,
         conversationMessage: { user: latestUserMessage, bot: latestBotMessage },
         username: username
       })
@@ -96,14 +97,13 @@ const Footer = ({
     console.log("this is response from updateConvos: ", result.conversations[0].conversation)
     const updatedConversations = conversationTitles.slice();
 
-    if (!updatedConversations.some(conversation => conversation.title === currentConversation)) {
+    if (!updatedConversations.some(conversation => conversation.title === currentConversationTitle)) {
       updatedConversations.push({
         title: latestUserMessage,
         isSelected: true
       });
     }
     setConversationTitles(updatedConversations);
-    setConversation(latestUserMessage)
     setConversation(result.conversations[0].conversation);
     setNewConvoTitle("");
     document.getElementsByClassName("footerInput")[0].value = "";

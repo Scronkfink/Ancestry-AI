@@ -8,7 +8,7 @@ import Settings from "./Settings";
 
 const baseUrl = process.env.REACT_APP_API_URL || ""
 
-const Nav = ({ userInfo = [], conversationTitles, setConversationTitles, setCurrentConversation, setConversation, setShowSettings, showSettings }) => {
+const Nav = ({ userInfo = [], conversationTitles, setConversationTitles, setCurrentConversationTitle, setConversation, setShowSettings, showSettings }) => {
 
   const navigate = useNavigate();
   const [showConfirmation, setShowConfirmation] = useState(false);
@@ -86,7 +86,8 @@ const Nav = ({ userInfo = [], conversationTitles, setConversationTitles, setCurr
       isSelected: i === index,
     }));
     setConversationTitles(updatedConversations);
-    setCurrentConversation(conversationTitles[index].title);
+    setCurrentConversationTitle(conversationTitles[index].title);
+    console.log("IN NAV, This is the currentConversation: ", conversationTitles[index].title)
 
     const response = await fetch(`${baseUrl}/api/getconversation`, {
       method: "POST",

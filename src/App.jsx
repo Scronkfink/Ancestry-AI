@@ -11,7 +11,7 @@ const App = () => {
 
   const [conversation, setConversation] = useState([]);
   const [conversationTitles, setConversationTitles] = useState([]);
-  const [currentConversation, setCurrentConversation] = useState([]);
+  const [currentConversationTitle, setCurrentConversationTitle] = useState([]);
   const [showSettings, setShowSettings] = useState(false);
   const [isMobile, setIsMobile] = useState(window.innerWidth < 640);
   const [userInfo, setUserInfo] = useState(() => {
@@ -37,10 +37,10 @@ const App = () => {
       <MobileApp 
         setUserInfo={setUserInfo} 
         userInfo={userInfo} 
-        conversations={conversationTitles} 
-        setSpecificConversation={setConversationTitles} 
-        currentConversation={currentConversation} 
-        setCurrentConversation={setCurrentConversation} 
+        conversationTitles={conversationTitles} 
+        setConversationTitles={setConversationTitles} 
+        currentConversationTitle={currentConversationTitle} 
+        setCurrentConversationTitle={setCurrentConversationTitle} 
         setConversation={setConversation}
         conversation={conversation}
       />
@@ -58,7 +58,7 @@ const App = () => {
               userInfo={userInfo} 
               conversationTitles={conversationTitles} 
               setConversationTitles={setConversationTitles} 
-              setCurrentConversation={setCurrentConversation} 
+              setCurrentConversationTitle={setCurrentConversationTitle} 
               setConversation={setConversation} 
               showSettings={showSettings} 
               setShowSettings={setShowSettings}
@@ -68,8 +68,8 @@ const App = () => {
               setConversation={setConversation} 
               userInfo={userInfo} 
               conversationTitles={conversationTitles} 
-              currentConversation={currentConversation} 
-              setCurrentConversation={setCurrentConversation} 
+              currentConversationTitle={currentConversationTitle} 
+              setCurrentConversationTitle={setCurrentConversationTitle} 
               setConversationTitles={setConversationTitles}
             />
             <Conversation conversation={conversation} />

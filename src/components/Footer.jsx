@@ -2,50 +2,56 @@ import React from "react";
 import { useState } from "react";
 import "../styles/footer.css";
 
-const baseUrl = process.env.REACT_APP_API_URL || ""
+const baseUrl = process.env.REACT_APP_API_URL || "";
 
-const Footer = ({ conversation, setConversation, userInfo, conversations, currentConversation, setCurrentConversation, setSpecificConversation }) => {
+const Footer = ({ 
+  conversation, 
+  setConversation, 
+  userInfo, 
+  conversationTitles, 
+  currentConversation, 
+  setCurrentConversation, 
+  setConversationTitles 
+}) => {
 
   const [newConvoTitle, setNewConvoTitle] = useState("");
 
   const conversationUpdate = async (e) => {
-
     let input = document.getElementById("input").value.trim();
     const latestUserMessage = input;
-    document.getElementById("input").value=""
+    document.getElementsByClassName("footerInput")[0].value = ""
 
     e.preventDefault();
-    if(currentConversation.length === 0){
-        if (newConvoTitle.trim()) {
-          try {
-            const response = await fetch(`${baseUrl}/api/createNewConvo`, {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/json",
-              },
-              body: JSON.stringify({
-                username: userInfo[0],
-                title: newConvoTitle,
-              }),
-            });
-      
-            if (response.ok) {
-              const newConvo = {
-                title: newConvoTitle,
-                isSelected: false,
-                conversation: { user: [], bot: [] }
-              };
-              setSpecificConversation(conversations.concat(newConvo));
-            } else {
-              console.error("Failed to create new conversation");
-            }
-          } catch (error) {
-            console.error("Error creating new conversation:", error);
+
+    if (currentConversation.length === 0) {
+      if (newConvoTitle.trim()) {
+        try {
+          const response = await fetch(`${baseUrl}/api/createNewConvo`, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              username: userInfo[0],
+              title: newConvoTitle,
+            }),
+          });
+
+          if (response.ok) {
+            const newConvo = {
+              title: newConvoTitle,
+              isSelected: false,
+              conversation: { user: [], bot: [] }
+            };
+            setConversationTitles(conversationTitles.concat(newConvo));
+          } else {
+            console.error("Failed to create new conversation");
           }
+        } catch (error) {
+          console.error("Error creating new conversation:", error);
         }
-        // console.log("this is the title: ", conversations[index].title)
-        setCurrentConversation(newConvoTitle);
-        setNewConvoTitle("");
+      }
+      setCurrentConversation(newConvoTitle);
     }
 
     const gptResponse = await fetch("/api/llm", {
@@ -57,8 +63,6 @@ const Footer = ({ conversation, setConversation, userInfo, conversations, curren
     });
 
     const gptResult = await gptResponse.json();
-    // console.log("This is LLM response: ", gptResult);
-
     const latestBotMessage = gptResult.answer;
 
     if (!conversation || conversation.length === 0) {
@@ -74,33 +78,35 @@ const Footer = ({ conversation, setConversation, userInfo, conversations, curren
     }
 
     const username = userInfo[0];
-    // console.log("this is newConvoTitle: ", newConvoTitle)
-    // console.log("this is currentConversation: ", currentConversation)
-    // console.log("this is conversationMessage: ", { user: latestUserMessage, bot: latestBotMessage })
 
+    console.log("this is the newConvoTitle: ", newConvoTitle)
     const response = await fetch(`${baseUrl}/api/updateConvos`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
       },
       body: JSON.stringify({
-        currentConversation: newConvoTitle,
+        currentConversation: currentConversation.length < 1 ? newConvoTitle : currentConversation,
         conversationMessage: { user: latestUserMessage, bot: latestBotMessage },
         username: username
       })
     });
 
-    // const result = await response.json();
-    // console.log("This is response from updateConvos: ", result);
-    console.log(`this is the "specificConversation" aka conversations: `, conversations)
-    const updatedConversations = conversations.slice()
-    updatedConversations.push({
-      title: currentConversation,
-      isSelected: true
-    });
-    console.log("this is updated conversations: ", updatedConversations)
-    setSpecificConversation(updatedConversations);
-    setCurrentConversation(currentConversation);
+    const result = await response.json()
+    console.log("this is response from updateConvos: ", result.conversations[0].conversation)
+    const updatedConversations = conversationTitles.slice();
+
+    if (!updatedConversations.some(conversation => conversation.title === currentConversation)) {
+      updatedConversations.push({
+        title: latestUserMessage,
+        isSelected: true
+      });
+    }
+    setConversationTitles(updatedConversations);
+    setConversation(latestUserMessage)
+    setConversation(result.conversations[0].conversation);
+    setNewConvoTitle("");
+    document.getElementsByClassName("footerInput")[0].value = "";
   };
 
   const handleKeyDown = (event) => {
@@ -112,8 +118,15 @@ const Footer = ({ conversation, setConversation, userInfo, conversations, curren
 
   return (
     <div className="footer">
-      <input id="input" type="text" placeholder="Ask away..." onKeyDown={handleKeyDown}
-      value={newConvoTitle} onChange={(e) => setNewConvoTitle(e.target.value)}></input>
+      <input 
+        id="input" 
+        type="text"
+        className="footerInput" 
+        placeholder="Ask away..." 
+        onKeyDown={handleKeyDown}
+        value={newConvoTitle} 
+        onChange={(e) => setNewConvoTitle(e.target.value)}
+      />
       <button className="button" onClick={conversationUpdate}>&#8593;</button>
     </div>
   );

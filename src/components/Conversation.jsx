@@ -15,27 +15,31 @@ const Conversation = ({ conversation }) => {
     scrollToBottom();
   }, [conversation]);
 
-  const getInterleavedMessages = () => {
-    if (!conversation.user && !conversation.bot) {
-      return [];
+const getInterleavedMessages = () => {
+  if (!conversation) {
+    return [];
+  }
+
+  const userMessages = conversation.user || [];
+  const botMessages = conversation.bot || [];
+  const interleaved = [];
+  const maxLength = Math.max(userMessages.length, botMessages.length);
+
+  for (let i = 0; i < maxLength; i++) {
+    if (userMessages[i]) {
+      interleaved.push({ user: userMessages[i] });
     }
-
-    const userMessages = conversation.user || [];
-    const botMessages = conversation.bot || [];
-    const interleaved = [];
-    const maxLength = Math.max(userMessages.length, botMessages.length);
-
-    for (let i = 0; i < maxLength; i++) {
-      if (userMessages[i]) {
-        interleaved.push({ user: userMessages[i] });
-      }
-      if (botMessages[i]) {
-        interleaved.push({ bot: botMessages[i] });
-      }
+    if (botMessages[i]) {
+      interleaved.push({ bot: botMessages[i] });
     }
+  }
 
-    return interleaved;
-  };
+  return interleaved;
+};
+
+useEffect(() => {
+  getInterleavedMessages()
+}, [conversation])
 
   // Generate the interleaved messages
   const interleavedMessages = getInterleavedMessages();

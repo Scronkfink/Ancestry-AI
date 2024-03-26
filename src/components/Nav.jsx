@@ -24,7 +24,6 @@ const Nav = ({ userInfo = [], conversationTitles, setConversationTitles, setCurr
         return
       }
       const username = userInfo[0];
-      // console.log("This is username for getConvos: ", username)
       try {
         const response = await fetch(`${baseUrl}/api/getConvos`, {
           method: "POST",
@@ -36,7 +35,7 @@ const Nav = ({ userInfo = [], conversationTitles, setConversationTitles, setCurr
           }),
         });
         const result = await response.json();
-        console.log("IN NAV; this is result from getUserConversations (soon to be specificConversation aka conversations", result);
+        console.log("These are the conversationTitles: ", result);
         setConversationTitles(result);
       } catch (error) {
         console.error("Error fetching conversations:", error);
@@ -87,7 +86,6 @@ const Nav = ({ userInfo = [], conversationTitles, setConversationTitles, setCurr
       isSelected: i === index,
     }));
     setConversationTitles(updatedConversations);
-    // console.log("this is the title: ", conversations[index].title)
     setCurrentConversation(conversationTitles[index].title);
 
     const response = await fetch(`${baseUrl}/api/getconversation`, {
@@ -101,7 +99,6 @@ const Nav = ({ userInfo = [], conversationTitles, setConversationTitles, setCurr
       })
     })
     const result = await response.json()
-    // console.log("IN NAV; this is the specific conversation", result)
     let newConvo = result.conversation
     setConversation(newConvo);
   };
@@ -136,7 +133,6 @@ const Nav = ({ userInfo = [], conversationTitles, setConversationTitles, setCurr
       });
   
       const result = await response.json();
-      // console.log("IN NAV; this is response from delete conversation", result);
   
       handleHideConfirmation();
     }

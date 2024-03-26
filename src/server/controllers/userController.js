@@ -91,6 +91,7 @@ userController.getConvos = (async(req, res, next) => {
 
 
 userController.updateConvos = async (req, res, next) => {
+  console.log("This is the req.body in updateConvos: ", req.body)
   const { username, conversationMessage, currentConversation } = req.body;
 
   try {

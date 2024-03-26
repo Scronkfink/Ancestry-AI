@@ -67,10 +67,10 @@ const App = () => {
               conversation={conversation} 
               setConversation={setConversation} 
               userInfo={userInfo} 
-              conversations={conversationTitles} 
+              conversationTitles={conversationTitles} 
               currentConversation={currentConversation} 
               setCurrentConversation={setCurrentConversation} 
-              setSpecificConversation={setConversationTitles}
+              setConversationTitles={setConversationTitles}
             />
             <Conversation conversation={conversation} />
           </div>

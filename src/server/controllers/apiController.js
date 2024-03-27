@@ -16,8 +16,8 @@ apiController.text = (async (req, res, next) => {
         { role: "user", content: `${newMessage}` }
       ],
       model: "ft:gpt-3.5-turbo-1106:personal:roberto8:976PzZbh",
-      max_tokens: 60, // Length of response
-      temperature: .7, // Lower for more deterministic responses
+      // max_tokens: 50, // Length of response
+      temperature: .8, // Lower for more deterministic responses
     });
    const answer = completion.choices[0].message.content
 

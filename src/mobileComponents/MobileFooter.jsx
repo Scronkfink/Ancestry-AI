@@ -20,6 +20,10 @@ const MobileFooter = ({
     e.preventDefault();
 
     let input = document.getElementById("mobileInput").value.trim();
+    if(input.length === 0){
+      alert("Put a message in...we have error handling, Tino.")
+      return 
+    }
     const latestUserMessage = input;
     let latestBotMessage = "";
 

@@ -19,7 +19,10 @@ const Footer = ({
     let latestBotMessage = ""
     e.preventDefault();
     let input = document.getElementById("input").value.trim();
-
+    if(input.length === 0){
+      alert("Put a message in...we have error handling, Tino.")
+      return 
+    }
     // console.log("In Footer, this is currentConversation: ", currentConversationTitle);
 
     // Immediately update conversation with the user's input
